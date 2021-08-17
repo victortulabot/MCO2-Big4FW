@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<head>
+    <title> Sign Up | B4 Freedom Wall</title>
+    <meta name="google-signin-client_id" content="436134069770-8noeso15h66pmn94790jkskieq3a3jl5.apps.googleusercontent.com">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="icon" href="/img/logo.png">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     {{!-- <script src="/js/signup.js" type="text/javascript"></script> --}}
+    <script src="https://kit.fontawesome.com/080b1bc218.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class = "template">
+        <div class="scope">
+            <div class = "header">
+                <a class="logo" href="/" tabindex="-1" title="B4FW"></a>
+            </div>
+        </div>
+        
+    </div>
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <span id="login-continue" class="h5">Sign up for free to start posting.</span>
+                </div>
+            </div>
+        
+            <form name="signUp" method="POST" class="form-login" enctype="multipart/form-data">
+                <small style="color: red; margin-left: -15px">* Required fields</small>
+                <div class="row">
+                    <label>Profile Photo</label><br />
+                    <div class="container form-upload"
+                        style="justify-content: center; align-items: center; text-align: center;">
+                        <img class="img-circle" id="output" src="/avatars/default.png" style="margin-left: 2px;" />
+                        <div>
+                            <div class="col" style="padding-left: 90px;">
+                                <p class="mx-auto w-100">
+                                    <input type="file" id="avatar" name="avatar" accept="image/jpeg, image/png"
+                                        value="{{input.avatar}}"
+                                        onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])" />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="register-email">Email <span style="color: red"> *</span></label><br />
+                    <div class="col-xs-12">
+                        <input type="text" class="form-control" name="email" id="register-email" placeholder="Email address" value="{{input.email}}">
+                    </div>
+                    <p style="color: red; margin-top: 1px; margin-bottom: -2px">
+                        {{details.emailError}}
+                    </p>
+                </div>
+                <div class="row">
+                    <label>Password  <span style="color: red"> *</span></label><br />
+                    <div class="col-xs-12">
+                        <input type="password" class="form-control" name="password" id="register-password" placeholder="Password">
+                    </div>
+                    <p style="color: red; margin-top: 1px; margin-bottom: -2px">
+                        {{details.passwordError}}
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <input type="password" class="form-control" name="passwordConfirm" id="register-password-recheck" placeholder="Confirm Password">
+                    </div>
+                    <p style="color: red; margin-top: 1px; margin-bottom: -2px">
+                        {{details.passwordConfirmError}}
+                    </p>
+                </div>
+                <div class="row">
+                    <label>First Name<span style="color: red">*</span></label><br />
+                    <div class="col-xs-12">
+                        <input type="text" class="form-control" name="fName" id="register-fName" placeholder="First Name" value="{{input.fName}}"> 
+                    </div>
+                    <p style="color: red; margin-top: 1px; margin-bottom: -2px">
+                        {{details.fNameError}}
+                    </p>
+                </div>
+                <div class="row">
+                    <label>Last Name  <span style="color: red"> *</span></label><br />
+                    <div class="col-xs-12">
+                        <input type="text" class="form-control" name="lName" id="register-lName" placeholder="Last Name" value="{{input.lName}}">
+                    </div>
+                     <p style="color: red; margin-top: 1px; margin-bottom: -2px">
+                        {{details.lNameError}}
+                    </p>
+                </div>
+                <div class="row">
+                    <label>Username  <span style="color: red"> *</span></label><br />
+                    <div class="col-xs-12">
+                        <input type="text" class="form-control" name="username" id="register-username" placeholder="What should we call you?" value="{{input.username}}">
+                    </div>
+                    <p style="color: red; margin-top: 1px; margin-bottom: -2px">
+                        {{details.usernameError}}
+                    </p>
+                </div>
+                <div class="row">
+                    <label>Bio  <span style="color: red"> *</span></label><br />
+                    <textarea class="w-100" id="shortprofile" name="bio" maxlength="150" style="resize: none; height: 8em; width: 30em; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px" placeholder="Tell us something about yourself">{{input.bio}}</textarea>
+                    <p style="color: red; margin-top: 1px; margin-bottom: -2px">
+                        {{details.bioError}}
+                    </p>
+                    <div id="the-count" style="float: right;padding: 0.1rem 0 0 0;font-size: 0.875rem;">
+                        <span id="current">0</span>
+                        <span id="maximum">/ 150</span>
+                    </div>
+                </div>
+                <div class="row row-submit">
+                    <div class="col-xs-12">
+                        <div class="loginbuttonblock">
+                            <button type="submit" id="loginbutton">SIGN-UP</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div id="error" style="color: red; font-size:16px; font-weight:600;"></div>
+                <div class="col-xs-12">
+                    <div class="divider"></div>
+                    <p class="text-center text-muted footer">Big Four: Freedom Wall</p>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+    <script>
+    $('#shortprofile').keyup(function() {
+    
+        var characterCount = $(this).val().length,
+            current = $('#current'),
+            maximum = $('#maximum'),
+            theCount = $('#the-count');
+            
+        current.text(characterCount);
+        })
+    </script>
+</body>     
+
+
+</html>     

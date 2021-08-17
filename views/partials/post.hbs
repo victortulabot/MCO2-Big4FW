@@ -1,0 +1,222 @@
+ <ul class="timeline">
+    <li class="timeline-inverted">
+        {{#match university 'ADMU'}}
+            <div class="timeline-badge ateneo">&#x1f985</div>
+        {{/match}}
+        {{#match university 'DLSU'}}
+            <div class="timeline-badge lasalle">&#127993</div>
+        {{/match}}
+        {{#match university 'UP'}}
+            <div class="timeline-badge up">&#9994</div>
+        {{/match}}
+        {{#match university 'UST'}}
+            <div class="timeline-badge ust">&#128047</div>
+        {{/match}}
+        <div class="timeline-panel">
+            <div class="timeline-heading">
+                {{!-- <div class="postNum">{{postNumber}}</div> --}}
+                <h4 class="timeline-title">
+                    <a href="/post/{{_id}}" style="color: rgb(78, 73, 73);">{{title}}</a> 
+                    {{#if edited}}
+                    <span style="text-align: left; font-style:italic; font-size:x-small; margin-left: 3px">( <i class="fa fa-pencil" aria-hidden="true"></i> Edited)</span>
+                    {{/if}}
+                </h4>
+               
+                <div class ="dropdown">
+                    <img src="/img/option.png" style="height: 20px; width: 20px;" id="option1" title="Option">
+                    <div class="dropdown-content">
+                        {{#match user._id activeid}}
+                            {{#checkSaved this._id saved}}
+                                {{!-- <a href="/post/unsave/{{this._id}}" id="unsave/{{this._id}}" class="unsave">Unsave Post</a> --}}
+                                <a id="unsave/{{this._id}}" class="unsave" style="cursor: pointer;">Unsave Post</a>
+                                <a id="save/{{this._id}}" class="save" style="display: none; cursor: pointer;">Save Post</a>
+                            {{else}}
+                                {{!-- <a href="/post/save/{{this._id}}" id="save/{{this._id}}" class="save">Save Post</a> --}}
+                                <a id="unsave/{{this._id}}" class="unsave" style="display: none; cursor: pointer;">Unsave Post</a>
+                                <a id="save/{{this._id}}" class="save" style="cursor: pointer;">Save Post</a>
+                            {{/checkSaved}}
+                                <a href="" data-bs-toggle="modal" data-bs-target="#modalEditPost{{_id}}">Edit Post</a>
+                                {{!-- <a href="/post/delete/{{this._id}}">Delete Post</a> --}}
+                                <a href="" data-bs-toggle="modal" data-bs-target="#modalDeletePost{{_id}}">Delete Post</a>
+                        {{else}}
+                            {{#checkSaved this._id saved}}
+                            {{!-- <a href="/post/unsave/{{this._id}}" id="unsave/{{this._id}}" class="unsave">Unsave Post</a> --}}
+                            <a id="unsave/{{this._id}}" class="unsave" style="cursor: pointer;">Unsave Post</a>
+                            <a id="save/{{this._id}}" class="save" style="display: none; cursor: pointer;">Save Post</a>
+                            {{else}}
+                            {{!-- <a href="/post/save/{{this._id}}" id="save/{{this._id}}" class="save">Save Post</a> --}}
+                            <a id="unsave/{{this._id}}" class="unsave" style="display: none; cursor: pointer;">Unsave Post</a>
+                            <a id="save/{{this._id}}" class="save" style="cursor: pointer;">Save Post</a>
+                            {{/checkSaved}}
+                        {{/match}}
+                    </div>
+                </div>
+            </div>
+            <span class="timeline-author">
+                <div class="author">  
+                    <a class="a-link" href="/userid/{{user._id}}">By: {{user.username}}</a>
+                </div>
+                <div class="userCreditScoree">({{user.creditScore}} pts)</div>    
+            </span>
+            <div class="timeline-body" style="margin-top: 12px;">
+                <p>{{body}}</p>
+            </div>
+            <div class="timeline-photo">
+                {{#match photo null}}
+                {{else}}
+                <img src="/posts/{{photo}}" width="250" height="250">
+                {{/match}}
+            </div>
+            <div class="userTagss" title="Tags">
+                <span>
+                    Tags: 
+                        {{!-- {{tags}} --}}
+                        {{#each tags}}
+                            <a href='/timeline/search?msg={{#search this}} {{/search}}' class="a-link">{{this}}</a>,
+                        {{/each}}
+                    
+                </span>
+            </div>
+            <hr>
+            <div class="userbuttonscontainerr">
+                <p class ="upvotecountt" title="Vote Count"><span id="upvotecount_{{_id}}">{{upvote}}</span> upvotes, <span id="downvotecount_{{_id}}">{{downvote}}</span> downvotes, <span>{{comment}} comments</span></p>
+                    
+                {{#checkUpvote this._id upvoted}}
+                    <img src="/img/upvoted.png" id="upvoted_{{_id}}" title="Upvote" class="upvote">
+                    <img src="/img/downvote.png" id="downvote_{{_id}}" title="Downvote" class="downvote">
+                    {{else}}
+
+                        {{#checkDownvote this._id downvoted}}
+                            <img src="/img/upvote.png" id="upvote_{{_id}}" title="Upvote" class="upvote">
+                            <img src="/img/downvoted.png" id="downvoted_{{_id}}" title="Downvote" class="downvote">
+                            {{else}} 
+                            <img src="/img/upvote.png" id="upvote_{{_id}}" title="Upvote" class="upvote">
+                            <img src="/img/downvote.png" id="downvote_{{_id}}" title="Downvote" class="downvote">
+                        {{/checkDownvote}}
+
+                {{/checkUpvote}}
+
+               {{!-- <img src="/img/upvote.png" id="upvote_{{_id}}" title="Upvote" class="upvote" onclick="upVote(this,downvote_{{_id}})">
+                <img src="/img/downvote.png" id="downvote_{{_id}}" title="Downvote" class="downvote" onclick="downVote(upvote_{{_id}},this)"> --}}
+                       
+                
+                {{!-- <a href="/indivPost?_id={{_id}}&DisplayName={{User}}" > --}}
+                <a href='/post/{{_id}}'><img src="/img/comment.png" style="height: 43px; width: 47px; margin-left: -3px;" id="comment" class="comment" title="Comment"></a>
+            </div>
+
+            <div id="p_id" style="margin-bottom: 20px;">
+                <p id="pid" style="visibility: hidden; margin-top: -10px">{{_id}}</p>
+                <p id="puid" style="visibility: hidden; margin-top: -75px;">{{user._id}}</p>
+            </div>
+            <hr style="margin-bottom: 20px;">
+            <div class="timeline-panel">
+                <div id="displayComment">
+                    {{#each comments}}
+                        {{>commentCard activeid = ../active_user}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </li>
+  
+    {{!-- {{#each userComments}}
+        {{>commentBar DisplayPicture = image}}
+    {{/each}} --}}
+</ul>
+
+<!-- Modal -->
+<div class="modal fade border" id="modalEditPost{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document" style="width: 600px">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title"><strong>Edit Post</strong></h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body pb-0 mb-0">
+        <!-- use method="post" to send your form to server -->
+        
+        <form class="form-horizontal" id="editPost" enctype="multipart/form-data" method="post" action="/editPost?id={{this._id}}">
+            <p><span style="font-weight: bold; text-decoration:underline">Note:</span> Your post votes will reset to 0 after editing!</p>
+            
+             <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>Title</strong><span style="color: red"> *</span></p>
+                    <input type="text" class="form-control post-area-title" id="title" name="title" value="{{title}}"/>
+                    <p id="error" style="color: red; margin-left: 15px"></p>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p>Content<strong></strong><span style="color: red"> *</span></p>
+                    <input type="textarea" class="form-control post-area" id="body" name="body" value="{{body}}" required/>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>Tags</strong><span style="color: red"> *</span></p>
+                    <input type="text" class="form-control post-area-tags" id="tags" name="tags" value="{{tags}}" required/>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>Photo</strong></p>
+                    {{!-- {{#match photo null}}
+                    <p>No Photo Uploaded</p>  --}}
+                    <img id="pic_edit" src="/posts/{{photo}}" width="150" height="150">
+                    {{!-- {{/match}} --}}
+                    <input id="upload" name="upload" type="file" accept="image/*"  {{#match photo null}}{{else}}value="{{photo}}"{{/match}}
+                    onchange="document.getElementById('pic_edit').src = window.URL.createObjectURL(this.files[0])">
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <input type="text" class="form-control" id="id" name="id" value="{{user._id}}" style="visibility: hidden;"/>
+            <input type="text" class="form-control" id="postId" name="postId" value="{{_id}}" style="visibility: hidden;"/>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Discard Changes</button>
+                <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade border" id="modalDeletePost{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document" style="width: 600px">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title"><strong>Delete Post</strong></h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body pb-0 mb-0">
+        <!-- use method="post" to send your form to server -->
+        <form class="form-horizontal" id="deletePost" method="get" action="/post/delete/{{this._id}}">
+            <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>Are you sure you want to delete this post?</strong></p>
+                    <p><strong>Title</strong></p>
+                    <p>{{title}}</p>
+                    <p><strong>Body</strong></p>
+                    <p>{{body}}</p>
+                    <p id="error" style="color: red; margin-left: 15px"></p>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
+                <button type="submit" class="btn btn-danger" id="saveBtn">Delete</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

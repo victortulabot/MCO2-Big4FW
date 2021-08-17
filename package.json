@@ -1,0 +1,37 @@
+{
+  "name": "x22g1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ccapdev1920T2/x22g1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ccapdev1920T2/x22g1/issues"
+  },
+  "homepage": "https://github.com/ccapdev1920T2/x22g1#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.0",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
+    "hbs": "^4.1.1",
+    "mongo-sanitize": "^1.1.0",
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.10.9",
+    "multer": "^1.4.2",
+    "path": "^0.12.7",
+    "supervisor": "^0.12.0"
+  },
+  "keywords": []
+}

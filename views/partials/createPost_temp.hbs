@@ -1,0 +1,115 @@
+<div class="box-creating">
+    <div class="creating">
+        <span class="create-post">
+            <span class="post">Create Post</span>
+        </span>
+    </div>
+</div>
+
+<form name="createPost" enctype="multipart/form-data" method="POST" action="/createpost">
+    <div class="post-text">
+        <div class="whole-post">
+            <div class="post-pic">
+                <a class="pic" href="/profile/{{userid}}">
+                    <img class="img" src="/avatars/{{image}}" height="40" width="40" alt>
+                </a>
+            </div>
+            <div class="actual-text">
+                <div class="box-text mb-4">
+                    <textarea name="title" id="title" class="form-control"
+                        placeholder="Title of your post" rows="1">{{input_title}}</textarea>
+                    <p style="color: red; margin-top: -5px; margin-bottom: 2px; font-size: 10px">
+                        {{details_titleError}}
+                    </p>
+                </div>
+                <div class="box-text">
+                    <textarea name="body" id="body" class="form-control"
+                        placeholder="Any story to tell?" rows="2">{{input_body}}</textarea>
+                    <br>
+                    <p style="color: red; margin-top: -5px; margin-bottom: 2px; font-size: 10px">
+                        {{details_bodyError}}
+                    </p>
+                </div>
+                <div class="box-text">
+                    <input type="text" name="tags" id="tags" class="form-control"
+                        placeholder="#Tags (Separate your tags with comma)" value="{{input_tags}}"
+                        autocomplete="off"></input>
+                    <p style="color: red; margin-top: -5px; margin-bottom: 2px; font-size: 10px">
+                        {{details_tagsError}}
+                    </p>
+                    <br>
+                </div>
+                <div class="buttons-post">
+                    <img id="output" {{#match photo null}}{{else}}src="/posts/{{photo}}" {{/match}}>
+                    <div class="buttons-post2">
+                        <ul class="buttons-post-icons">
+                            <li class="media-button">
+                                <div class="media-icon">
+                                    <span class="media-span">
+                                        <div class="media-pic" style="border: 1px solid gray">
+                                            <div class="media-text">
+                                                {{!-- <form action="/uploadPhoto" enctype="multipart/form-data"
+                                                    method="POST"> --}}
+                                                    <label for="upload" style="cursor:pointer">
+                                                        <i class="far fa-images"></i>
+                                                        Photo
+                                                        <input id="upload" name="upload" type="file" accept="image/*"
+                                                            style="display: none;"
+                                                            onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
+                                                    </label>
+                                                    {{!--
+                                                </form> --}}
+                                            </div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="media-button">
+                                <div class="media-icon">
+                                    <span class="media-span">
+                                        <div class="media-pic" style="border: 1px solid gray">
+                                            <div class="dropdown">
+                                                {{!-- <div class="media-text"><i class="fas fa-filter"></i>UniFilter
+                                                </div> --}}
+                                                {{!-- <div class="dropdown-content-uni"> --}}
+                                                    <div class="media-text"> <i class="fas fa-university"></i>
+                                                        <select id="universities" name="university"
+                                                            style="border: none; background-color: rgba(126, 125, 125, 0); cursor:pointer">
+                                                            {{!-- <option value="&#x1f985">ADMU</option>
+                                                            <option value="&#127993">DLSU</option>
+                                                            <option value="&#9994">UP</option>
+                                                            <option value="&#128047">UST</option> --}}
+                                                            <option value="ADMU">ADMU</option>
+                                                            <option value="DLSU">DLSU</option>
+                                                            <option value="UP">UP</option>
+                                                            <option value="UST">UST</option>
+                                                        </select>
+                                                    </div>
+                                                    {{!--
+                                                </div> --}}
+                                            </div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </li>
+                            <li class="media-button-timeline" style="margin-left: 255px;">
+                                <div class="media-icon">
+                                    <span class="media-span">
+                                        <div class="media-pic" id="pbutton">
+                                            <button type="submit" id="postbutton"
+                                                style="background-color: rgba(255, 255, 255, 0.007); border: none;">
+                                                <div class="media-text">
+                                                    <i class="far fa-edit"></i>Post
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </hr>
+        </div>
+    </div>
+</form>

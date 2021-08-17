@@ -1,0 +1,64 @@
+<nav class="navbar sticky-top shadow-sm navbar-expand-lg navbar-light bg-light navbar-inverse {{navbar}}">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/timeline"><b><img src="/img/logo.png" style="width: 20px;"/>  BIG FOUR: Freedom Wall</b></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/timeline"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/timeline/admu">&#x1f985 ADMU</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/timeline/dlsu">&#127993 DLSU</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/timeline/up">&#9994 UP</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/timeline/ust">&#128047 UST</a>
+                </li>
+            </ul>
+            <form class="d-flex" style="margin-right:5px">
+                <input class="form-control me-2" type="text" placeholder="Search #tags"  id="search" name="search" aria-label="Search">
+                <button class="btn btn-outline-success input-group-btn mr-3" type="button" id="searchbtn"><i class="fas fa-search"></i></button>
+            </form>
+            
+            <div class="dropdown d-flex ">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Profile
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="/profile/{{userid}}">Profile</a></li>
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // For search
+    var input = document.getElementById("search");
+    var inputbtn = document.getElementById("searchbtn")
+    // Execute a function when the user releases a key on the keyboard
+    input.addEventListener("keyup", function (event) {
+        // Number 13 is the "Enter" key on the keyboard
+        var search = document.getElementById("search").value;
+        if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            window.location = "/timeline/search?msg=" + encodeURIComponent(search);
+        }
+    });
+    inputbtn.addEventListener("click", function (event) {
+        var search = document.getElementById("search").value;
+            window.location = "/timeline/search?msg=" + encodeURIComponent(search);
+    });
+</script>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="/css/facelift/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/style1.css">
+    <link rel="stylesheet" type="text/css" href="/css/homepagestyle.css">
+    <link rel="icon" href="/img/logo.png">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/080b1bc218.js" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- JQuery Import -->
+    {{!-- <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+        integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg==" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS Import -->
+    <script src="/js/votes.js"></script>
+    <script src="/js/profile.js"></script>
+
+    <title>{{user.fName}} {{user.lName}} | Profile</title>
+    </head>
+
+    <body>
+        {{!-- do the header separate --}}
+        {{!-- {{>header userid = active_user}} --}}
+        {{>header userid = user._id}}
+        {{!-- {{>userProfile fName = fn lName = ln Bio = bio DisplayPicture = image CreditScore = cs DisplayName = DisplayName}} --}}
+        
+        <div class="container">
+        <div class="card w-30 mt-5 mx-auto shadow-sm">
+            <div class="card-body">
+                <h1 class="text-center">User Profile</h1>
+                    <div class="row">
+                        <div class="container" style="justify-content: center; align-items: center; text-align: center;">
+                        
+                            <img class="img-circle" id="output" src="/avatars/{{user.avatar}}" style="margin-left: 2px;" />
+
+                            <div class="rank-label-container">
+                                <span class="label label-default rank-label" title="Credit Score">{{user.creditScore}} pts</span>
+                            </div>
+
+                            <div>
+                                <div class="col">
+                                    {{!-- <p class="mx-auto w-100">
+                                        <div class="user-info-block">
+                                            <div class="user-heading"> --}}
+                                                <h3 class="text-center">{{user.fName}} {{user.lName}} {{#if profile}}<a href="" data-bs-toggle="modal" data-bs-target="#modalEdit"><i class="fas fa-user-edit fa-xs" title="Edit Profile" style="color: gray; margin-top: 10px; font-size: 20px"></i></a>{{/if}}</h3>
+                                              
+                                                <p class="p-name text-center" style="font-size: 13px; margin-top: -20px; font-family:Arial, Helvetica, sans-serif; font-style: italic; text-align: center" id="DisplayName">@{{user.username}}</p>
+                                            {{!-- </div> --}}
+                                            <div class="textbio text-center" title="User's Bio">{{user.bio}}</div>
+                                        {{!-- </div>
+                                    </p> --}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div id="buttoncontainer">
+                        
+                        {{#if profile}}
+
+                        <div class="row">
+                            <div class="col button1">
+                                <button id="Recent_Post" title="Recent Posts" class="btn w-100 btn-custom mb-1 tablinks butn">Recent Posts</button>
+                            </div>
+                            <div class="col button2">
+                                <button id="Saved_Post" title="Saved Posts" class="btn w-100 btn-custom mb-1 tablinks">Saved Posts</button>
+                            </div>
+                        </div>
+
+                        {{else}}
+
+                        <div class="row">
+                           <div class="col button1">
+                                <button id="Recent_Post" title="Recent Posts" class="btn w-100 btn-custom mb-1 tablinks">Recent Posts</button>
+                            </div>
+                        </div>
+                        
+                        
+                        {{/if}}
+                    </div>    
+            </div>
+        </div>
+    </div>
+        
+    <div class="row mt-3">
+        <div class="col-1">
+            
+        </div>
+        <div class="col-10 ml-5">
+            <div id="RecentPost" class="tabcontent">
+                {{#if pa}}
+                    <p style="margin-top: 7px; text-align: center">No Posts.</p>
+                {{/if}}
+                <div id="post">
+                    {{#each posts}}
+                        {{>post university = this.university activeid = ../active_user saved = ../saved upvoted = ../upvoted downvoted = ../downvoted comment = this.comments.length}}
+                    {{/each}}
+                </div>
+            </div>
+            <div id="SavedPost" class="tabcontent">
+                {{#if sa}}
+                    <p style="margin-top: 7px; text-align: center">No Saved Posts.</p>
+                 {{/if}}
+                <div id="post">
+                    {{#each display_save}}
+                        {{>post university = this.university activeid = ../active_user saved = ../saved upvoted = ../upvoted downvoted = ../downvoted comment = this.comments.length}}
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </body>
+</html>
+
+<!-- Modal -->
+<div class="modal fade border" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document" style="width: 600px">
+    <div class="modal-content">
+      <div class="modal-header">
+       <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><strong>Edit Profile</strong></h4>
+      </div>
+      <div class="modal-body pb-0 mb-0">
+        <!-- use method="post" to send your form to server -->
+        <form class="form-horizontal" id="editProfile" method="post" enctype="multipart/form-data" action="/editProfile">
+
+            <div class="form-group" style="margin-left: 15px;">
+                <p style="margin-left: 15px;"><strong>Profile Photo</strong></p>
+                    <div style="justify-content: center; align-items: center; text-align: center;">
+                        <img class="img-circle" id="editoutput" src="/avatars/{{user.avatar}}" style="margin-left: -25px;"/>
+                        <div>
+                            <div class="col" style="padding-left: 170px; padding-top: 10px">
+                                <p class="mx-auto w-100">
+                                    <input type="file" id="avatar" name="avatar" accept="image/jpeg, image/png"
+                                        value="{{user.avatar}}"
+                                        onchange="document.getElementById('editoutput').src = window.URL.createObjectURL(this.files[0])" />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            
+             <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>Username</strong><span style="color: red"> *</span></p>
+                    <input type="text" class="form-control" id="username" name="username" value="{{user.username}}"/>
+                    <p id="error" style="color: red; margin-left: 15px"></p>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>First Name</strong><span style="color: red"> *</span></p>
+                    <input type="text" class="form-control" id="fName" name="fName" value="{{user.fName}}" required/>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>Last Name</strong><span style="color: red"> *</span></p>
+                    <input type="text" class="form-control" id="lName" name="lName" value="{{user.lName}}" required/>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>Bio</strong><span style="color: red"> *</span></p>
+                    <input type="text" class="form-control" id="bio" name="bio" maxlength="150" value="{{user.bio}}" required/>
+                    <div id="the-count" style="float: right;padding: 0.1rem 0 0 0;font-size: 0.875rem;">
+                        <span id="current">0</span>
+                        <span id="maximum">/ 150</span>
+                    </div>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <input type="text" class="form-control" id="id" name="id" value="{{user._id}}" style="visibility: hidden;"/>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Discard Changes</button>
+                <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    // Shorthand for $( document ).ready()
+    $(function() {
+        count = $('#bio').val().length,
+        $('#current').text(count);
+        //$("#RecentPost").css("display", "block");
+        //tablinks = $(".tablinks");
+        //tablinks[0].attr('class') += " active";
+    });
+
+    $('#bio').keyup(function() {
+    
+    var characterCount = $(this).val().length,
+        current = $('#current'),
+        maximum = $('#maximum'),
+        theCount = $('#the-count');
+        
+    current.text(characterCount);
+    })
+    
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+        crossorigin="anonymous">
+</script>

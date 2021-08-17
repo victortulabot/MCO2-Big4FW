@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        
+        <link rel="stylesheet" type="text/css" href="/css/style1.css">
+        <link rel="stylesheet" type="text/css" href="/css/homepagestyle.css">
+        <link rel="icon" href="/img/logo.png">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        {{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js" integrity="sha512-UdIMMlVx0HEynClOIFSyOrPggomfhBKJE28LKl8yR3ghkgugPnG6iLfRfHwushZl1MOPSY6TsuBDGPK2X4zYKg==" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="/js/votes.js"></script>
+        {{!-- <script src="/js/timeline.js" type="text/javascript"></script>
+        <script src="/js/votes.js" type="text/javascript"></script> --}}
+        <script src="https://kit.fontawesome.com/080b1bc218.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        {{>header userid = user._id}}
+        <div class="container-fluid text-center">
+            <div class="row content line-nav">
+                <div class="col-sm-2 sidenav" id="sideprofile" style="margin-left: -20px;">
+                    {{>sideProfile fName = user.fName lName = user.lName CreditScore = user.creditScore DisplayName = user.username DisplayPicture = user.avatar userid = user._id}}
+                </div>
+                <div class="center-post">
+                    {{#if warn}}
+                        <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: left;">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Warning:</strong> Your credit score has dropped to -50 or less. If your credit score continues to drop and reached -100, your account will be permanently blocked. 
+                        </div>
+                    {{/if}}
+                    
+                    <div class="col-sm-8 text-left">
+                        
+                        {{#if result}}
+                        <h3>Search Results for: <span style="font-weight: 300; text-decoration:underline">{{msg}}</span></h3>
+                        <hr>
+
+                        {{else}}
+                            {{>createPost 
+                        userid = user._id 
+                        image = user.avatar 
+                        input_title = input.title
+                        details_titleError = details.titleError
+                        input_body = input.body
+                        details_bodyError = details.bodyError
+                        input_tags = input.tags
+                        details_tagsError = details.tagsError
+                        }}
+                         <hr>
+                        {{/if}}
+
+                        {{#if result}}
+
+                        {{else}}
+                            {{#if popular}}
+                                <a href='/timeline{{college}}/newest'><button style="z-index:5; position: relative; float:right; overflow:auto; margin-top: 20px; margin-bottom: 20px; color: rgb(59, 59, 59); font=size: 14px;"><i class="fas fa-filter"></i> Filter: (Popular)</button></a>
+                        
+                            {{else}}
+                                <a href='/timeline{{college}}'><button style="z-index:5; position: relative; float:right; overflow:auto; margin-top: 20px; margin-bottom: 20px; color: rgb(59, 59, 59)"><i class="fas fa-filter"></i> Filter: (Newest)</button></a>
+                            {{/if}}
+                        {{/if}}
+
+
+                        <div id="post">
+                            {{#if pa}}
+                                <p style="margin-top: 7px">Sorry, we couldn't find any results matching <span style="text-decoration: underline;">{{msg}}</span>.</p>
+                            {{/if}}
+                            
+                            
+                            {{#each posts}}
+                                {{>post university = this.university activeid = ../active_user saved = ../saved upvoted = ../upvoted downvoted = ../downvoted comment = this.comments.length}}
+                            {{/each}}
+                             {{!-- {{#if _id}}
+                                    {{>post}}
+                                {{/if}} --}}
+                        </div>
+                    </div>
+                </div>
+                {{>trending}}
+            </div>
+        </div>
+
+        
+
+    </body>
+
+</html>
