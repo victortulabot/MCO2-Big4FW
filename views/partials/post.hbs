@@ -26,28 +26,28 @@
                     <img src="/img/option.png" style="height: 20px; width: 20px;" id="option1" title="Option">
                     <div class="dropdown-content">
                         {{#match user._id activeid}}
-                            {{#checkSaved this._id saved}}
-                                {{!-- <a href="/post/unsave/{{this._id}}" id="unsave/{{this._id}}" class="unsave">Unsave Post</a> --}}
+                            {{!-- {{#checkSaved this._id saved}}
+                                <a href="/post/unsave/{{this._id}}" id="unsave/{{this._id}}" class="unsave">Unsave Post</a>
                                 <a id="unsave/{{this._id}}" class="unsave" style="cursor: pointer;">Unsave Post</a>
                                 <a id="save/{{this._id}}" class="save" style="display: none; cursor: pointer;">Save Post</a>
                             {{else}}
-                                {{!-- <a href="/post/save/{{this._id}}" id="save/{{this._id}}" class="save">Save Post</a> --}}
+                                <a href="/post/save/{{this._id}}" id="save/{{this._id}}" class="save">Save Post</a>
                                 <a id="unsave/{{this._id}}" class="unsave" style="display: none; cursor: pointer;">Unsave Post</a>
                                 <a id="save/{{this._id}}" class="save" style="cursor: pointer;">Save Post</a>
-                            {{/checkSaved}}
+                            {{/checkSaved}} --}}
                                 <a href="" data-bs-toggle="modal" data-bs-target="#modalEditPost{{_id}}">Edit Post</a>
                                 {{!-- <a href="/post/delete/{{this._id}}">Delete Post</a> --}}
                                 <a href="" data-bs-toggle="modal" data-bs-target="#modalDeletePost{{_id}}">Delete Post</a>
                         {{else}}
-                            {{#checkSaved this._id saved}}
-                            {{!-- <a href="/post/unsave/{{this._id}}" id="unsave/{{this._id}}" class="unsave">Unsave Post</a> --}}
+                            {{!-- {{#checkSaved this._id saved}}
+                            <a href="/post/unsave/{{this._id}}" id="unsave/{{this._id}}" class="unsave">Unsave Post</a>
                             <a id="unsave/{{this._id}}" class="unsave" style="cursor: pointer;">Unsave Post</a>
                             <a id="save/{{this._id}}" class="save" style="display: none; cursor: pointer;">Save Post</a>
                             {{else}}
-                            {{!-- <a href="/post/save/{{this._id}}" id="save/{{this._id}}" class="save">Save Post</a> --}}
+                            <a href="/post/save/{{this._id}}" id="save/{{this._id}}" class="save">Save Post</a>
                             <a id="unsave/{{this._id}}" class="unsave" style="display: none; cursor: pointer;">Unsave Post</a>
                             <a id="save/{{this._id}}" class="save" style="cursor: pointer;">Save Post</a>
-                            {{/checkSaved}}
+                            {{/checkSaved}} --}}
                         {{/match}}
                     </div>
                 </div>

@@ -77,9 +77,9 @@
                             <div class="col button1">
                                 <button id="Recent_Post" title="Recent Posts" class="btn w-100 btn-custom mb-1 tablinks butn">Recent Posts</button>
                             </div>
-                            <div class="col button2">
+                            {{!-- <div class="col button2">
                                 <button id="Saved_Post" title="Saved Posts" class="btn w-100 btn-custom mb-1 tablinks">Saved Posts</button>
-                            </div>
+                            </div> --}}
                         </div>
 
                         {{else}}
@@ -112,7 +112,7 @@
                     {{/each}}
                 </div>
             </div>
-            <div id="SavedPost" class="tabcontent">
+            {{!-- <div id="SavedPost" class="tabcontent">
                 {{#if sa}}
                     <p style="margin-top: 7px; text-align: center">No Saved Posts.</p>
                  {{/if}}
@@ -121,7 +121,7 @@
                         {{>post university = this.university activeid = ../active_user saved = ../saved upvoted = ../upvoted downvoted = ../downvoted comment = this.comments.length}}
                     {{/each}}
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     

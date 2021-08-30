@@ -18,11 +18,11 @@
                     {{details_bodyError}}
                   </p>
                 
-                  <input type="text" name="tags" id="tags" class="form-control"
+                  {{!-- <input type="text" name="tags" id="tags" class="form-control"
                     placeholder="#Tags (Separate your tags with comma)" value="{{input_tags}}" autocomplete="off"></input>
                   <p style="color: red; font-size: 10px">
                     {{details_tagsError}}
-                  </p>
+                  </p> --}}
                 </div>
                 
                 
@@ -36,13 +36,13 @@
                 </select>
                   
                 {{!-- <button class="btn btn-secondary mb-2 mt-4"> --}}
-                  <br>
+                  {{!-- <br>
                   <label for="upload" class="form-label">
                     Photo<br>
                     <input id="upload" name="upload" type="file" accept="image/*" 
-                            onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])">
+                            onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"> --}}
                     {{!-- Photo --}}
-                  </label>
+                  {{!-- </label> --}}
                 {{!-- </button> --}}
 
                 <button type="submit" id="postbutton" class="btn btn-secondary mb-2 mt-4 float-end">Post</button>
