@@ -1,8 +1,9 @@
 <div class="comment-container">
         <div class="comment-user">
             <img class="comment-img" src="/avatars/{{user.avatar}}">
-        </div>   
-        <div class="comment-body">
+        </div>
+        <div>
+          <div class="comment-body">
             <div class="author"><a class="a-link" href="/userid/{{user._id}}">{{user.username}}</a>
                 <span class="userCreditScoree" style="margin-left: 1px;">({{user.creditScore}} pts)</span>
                 {{#if c_edited}}
@@ -10,6 +11,10 @@
                 {{/if}}
             </div>
             <p>{{comment}}</p>
+          </div>
+          <div>
+            <a href="" data-bs-toggle="modal" data-bs-target="#modalReplyComment{{_id}}">Reply</a>
+          </div>
         </div>
         {{#match user._id activeid}}
         <div class ="dropdown" style="margin-left: 10px">
@@ -49,8 +54,8 @@
             <input type="text" class="form-control" id="postId" name="postId" value="{{_id}}" style="visibility: hidden;"/>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Discard Changes</button>
-                <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" >Discard Changes</button>
+                <button type="submit" class="btn btn-secondary" id="saveBtn">Save</button>
             </div>
         </form>
       </div>
@@ -81,6 +86,40 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
                 <button type="submit" class="btn btn-danger" id="saveBtn">Delete</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade border" id="modalReplyComment{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document" style="width: 600px">
+    <div class="modal-content">
+      <div class="modal-header">
+       <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+          <h4 class="modal-title"><strong>Reply to a Comment</strong></h4>
+      </div>
+      <div class="modal-body pb-0 mb-0">
+        <!-- use method="post" to send your form to server -->
+        <form class="form-horizontal" id="replyComment" method="post" action="/replyComment?id={{_id}}&postid={{post}}">
+            
+             <div class="form-group" style="margin-left: 15px;">
+                <div class="col-xs-11">  
+                    <p><strong>Reply</strong><span style="color: red"> *</span></p>
+                    <input type="text" class="form-control post-reply" id="replyBar" name="replyBar" value=""/>
+                    <p id="error" style="color: red; margin-left: 15px"></p>
+                </div>
+                <div class="col-sm-7"></div>
+            </div>
+
+            <input type="text" class="form-control" id="id" name="id" value="{{user._id}}" style="visibility: hidden;"/>
+            <input type="text" class="form-control" id="postId" name="postId" value="{{_id}}" style="visibility: hidden;"/>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" >Cancel</button>
+                <button type="submit" class="btn btn-secondary" id="replyCommentBtn">Post Reply</button>
             </div>
         </form>
       </div>

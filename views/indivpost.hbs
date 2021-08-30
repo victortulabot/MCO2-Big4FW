@@ -89,28 +89,28 @@
                                                         <a href="/post/delete/{{post._id}}">Delete Post</a>
                                                         {{else}}
                                                         <a href="#">Save Post</a> --}}
-                                                        {{#checkSaved post._id saved}}
-                                                            {{!-- <a href="/post/unsave/{{post._id}}" id="unsave/{{post._id}}">Unsave Post</a> --}}
+                                                        {{!-- {{#checkSaved post._id saved}}
+                                                            <a href="/post/unsave/{{post._id}}" id="unsave/{{post._id}}">Unsave Post</a>
                                                             <a id="unsave/{{post._id}}" class="unsave" style="cursor: pointer;">Unsave Post</a>
                                                             <a id="save/{{post._id}}" class="save" style="display: none; cursor: pointer;">Save Post</a>
                                                         {{else}}
-                                                            {{!-- <a href="/post/save/{{post._id}}" id="save/{{post._id}}">Save Post</a> --}}
+                                                            <a href="/post/save/{{post._id}}" id="save/{{post._id}}">Save Post</a>
                                                             <a id="unsave/{{post._id}}" class="unsave" style="display: none; cursor: pointer;">Unsave Post</a>
                                                             <a id="save/{{post._id}}" class="save" style="cursor: pointer;">Save Post</a>
-                                                        {{/checkSaved}}
+                                                        {{/checkSaved}} --}}
                                                             <a href="" data-bs-toggle="modal" data-bs-target="#modalEditPost">Edit Post</a>
                                                             {{!-- <a href="/post/delete/{{post._id}}">Delete Post</a> --}}
                                                             <a href="" data-bs-toggle="modal" data-bs-target="#modalDeletePost">Delete Post</a>
                                                     {{else}}
-                                                        {{#checkSaved post._id saved}}
-                                                        {{!-- <a href="/post/unsave/{{post._id}}" id="unsave/{{post._id}}">Unsave Post</a> --}}
+                                                        {{!-- {{#checkSaved post._id saved}}
+                                                        <a href="/post/unsave/{{post._id}}" id="unsave/{{post._id}}">Unsave Post</a>
                                                         <a id="unsave/{{post._id}}" class="unsave" style="cursor: pointer;">Unsave Post</a>
                                                         <a id="save/{{post._id}}" class="save" style="display: none; cursor: pointer;">Save Post</a>
                                                         {{else}}
-                                                        {{!-- <a href="/post/save/{{post._id}}" id="save/{{post._id}}">Save Post</a> --}}
+                                                        <a href="/post/save/{{post._id}}" id="save/{{post._id}}">Save Post</a>
                                                         <a id="unsave/{{post._id}}" class="unsave" style="display: none; cursor: pointer;">Unsave Post</a>
                                                         <a id="save/{{post._id}}" class="save" style="cursor: pointer;">Save Post</a>
-                                                        {{/checkSaved}}
+                                                        {{/checkSaved}} --}}
                                                     {{/match}}
                                                 </div>
                                             </div>
@@ -130,16 +130,16 @@
                                             <img src="/posts/{{post.photo}}" width="250" height="250">
                                             {{/match}}
                                         </div>
-                                        <div class="userTagss" title="Tags">
+                                        {{!-- <div class="userTagss" title="Tags">
                                             <span>
                                                 Tags: 
-                                                    {{!-- {{tags}} --}}
+                                                    {{tags}}
                                                     {{#each post.tags}}
                                                         <a href='/timeline/search?msg={{#search this}} {{/search}}' class="a-link">{{this}}</a>,
                                                     {{/each}}
                                                 
                                             </span>
-                                        </div>
+                                        </div> --}}
                                         <hr>
                                         <div class="userbuttonscontainerr">
                                             <p class ="upvotecountt" title="Vote Count"><span id="upvotecount_{{post._id}}">{{post.upvote}}</span> upvotes, <span id="downvotecount_{{post._id}}">{{post.downvote}}</span> downvotes, <span id="commentcount">{{post.comments.length}}</span> comments</p>

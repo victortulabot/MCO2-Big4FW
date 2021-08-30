@@ -122,7 +122,6 @@ $(document).ready(function () {
             var uv = $('#upvotecount_'+post_id).text();
             var upvote = parseInt(uv) + 1;
             $('#upvotecount_'+post_id).text(upvote);
-            
         }
         else{
             this.src = "/img/upvote.png";
@@ -234,5 +233,31 @@ $("#sendButton").click(function(){
     }
 
 })
+
+// WIP
+$("#replyCommentBtn").click(function(){
+    var commentBar = $('#commentBar').val();
+    var PostID = $('#postid').text();
+    var PostUserID = $('#postuser').text();
+    
+    if(commentBar != ''){
+        $('#commentBar').val('');
+        
+        $.get('/replyComment',{
+            commentBar: commentBar,
+            PostID: PostID,
+            PostUserID: PostUserID
+        }, function(data, status){
+            $('#displayComment').append(data);
+            var cc = $('#commentcount').text();
+            var count= parseInt(cc) + 1;
+            $('#commentcount').text(count);
+        })
+    }else{
+        // $('#error').text('');
+    }
+
+})
+// WIP
 
 })

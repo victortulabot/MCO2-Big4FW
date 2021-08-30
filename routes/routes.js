@@ -143,8 +143,8 @@ app.get('/userid/:userId', profileController.getIndivProfile);
 // app.get('/editprofile/:DisplayName', profileController.updateProfile);
 
 // postHelperController
-app.get('/post/save/:postId', postHelperController.savePost);
-app.get('/post/unsave/:postId', postHelperController.unsavePost);
+// app.get('/post/save/:postId', postHelperController.savePost);
+// app.get('/post/unsave/:postId', postHelperController.unsavePost);
 app.get('/post/upvote/:postId', postHelperController.upvotePost);
 app.get('/post/downvote/:postId', postHelperController.downvotePost);
 app.get('/post/unupvote/:postId', postHelperController.unupvotePost);
@@ -155,6 +155,9 @@ app.post('/editPost',
     validation.createPostValidation(),
     postHelperController.editPost);
 app.post('/editComment', postHelperController.editComment);
+// WIP
+app.post('/replyComment', postHelperController.replyComment);
+// WIP
 app.get('/comment/delete/:commentId/:id', postHelperController.deleteComment);
 
 //logout

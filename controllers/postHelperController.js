@@ -10,7 +10,6 @@ const postHelperController = {
     
     upvotePost: function(req, res) {
         var post_id = helper.sanitize(req.query.post_id);
-        
         if(req.query.puid == req.session.user){
             db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -1}}, function(post){
                 if(post){
@@ -398,7 +397,13 @@ const postHelperController = {
                 });
             }
         })
+    },
+
+    // WIP
+    replyComment: function(req, res){
+
     }
+    // WIP
 }
 
 module.exports = postHelperController;

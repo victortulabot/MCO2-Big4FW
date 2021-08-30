@@ -67,16 +67,16 @@
                 <img src="/posts/{{photo}}" width="250" height="250">
                 {{/match}}
             </div>
-            <div class="userTagss" title="Tags">
+            {{!-- <div class="userTagss" title="Tags">
                 <span>
                     Tags: 
-                        {{!-- {{tags}} --}}
+                        {{tags}}
                         {{#each tags}}
                             <a href='/timeline/search?msg={{#search this}} {{/search}}' class="a-link">{{this}}</a>,
                         {{/each}}
                     
                 </span>
-            </div>
+            </div> --}}
             <hr>
             <div class="userbuttonscontainerr">
                 <p class ="upvotecountt" title="Vote Count"><span id="upvotecount_{{_id}}">{{upvote}}</span> upvotes, <span id="downvotecount_{{_id}}">{{downvote}}</span> downvotes, <span>{{comment}} comments</span></p>
@@ -155,7 +155,7 @@
                 <div class="col-sm-7"></div>
             </div>
 
-            <div class="form-group" style="margin-left: 15px;">
+            {{!-- <div class="form-group" style="margin-left: 15px;">
                 <div class="col-xs-11">  
                     <p><strong>Tags</strong><span style="color: red"> *</span></p>
                     <input type="text" class="form-control post-area-tags" id="tags" name="tags" value="{{tags}}" required/>
@@ -166,22 +166,22 @@
             <div class="form-group" style="margin-left: 15px;">
                 <div class="col-xs-11">  
                     <p><strong>Photo</strong></p>
-                    {{!-- {{#match photo null}}
-                    <p>No Photo Uploaded</p>  --}}
+                    {{#match photo null}}
+                    <p>No Photo Uploaded</p> 
                     <img id="pic_edit" src="/posts/{{photo}}" width="150" height="150">
-                    {{!-- {{/match}} --}}
+                    {{/match}}
                     <input id="upload" name="upload" type="file" accept="image/*"  {{#match photo null}}{{else}}value="{{photo}}"{{/match}}
                     onchange="document.getElementById('pic_edit').src = window.URL.createObjectURL(this.files[0])">
                 </div>
                 <div class="col-sm-7"></div>
-            </div>
+            </div> --}}
 
             <input type="text" class="form-control" id="id" name="id" value="{{user._id}}" style="visibility: hidden;"/>
             <input type="text" class="form-control" id="postId" name="postId" value="{{_id}}" style="visibility: hidden;"/>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Discard Changes</button>
-                <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Discard Changes</button>
+                <button type="submit" class="btn btn-secondary" id="saveBtn">Save</button>
             </div>
         </form>
       </div>
@@ -212,7 +212,7 @@
                 <div class="col-sm-7"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" >Cancel</button>
                 <button type="submit" class="btn btn-danger" id="saveBtn">Delete</button>
             </div>
         </form>
