@@ -30,7 +30,7 @@ const timelineController = {
                         active_user: req.session.user,
                         user: user,
                         posts: post,
-                        saved: user.postsSaved,
+                        // saved: user.postsSaved,
                         upvoted: user.postsUpVoted,
                         downvoted: user.postsDownVoted,
                         warn: warn,
@@ -59,7 +59,7 @@ const timelineController = {
                         active_user: req.session.user,
                         user: user,
                         posts: post,
-                        saved: user.postsSaved,
+                        // saved: user.postsSaved,
                         upvoted: user.postsUpVoted,
                         downvoted: user.postsDownVoted,
                         warn: warn,
@@ -526,15 +526,18 @@ const timelineController = {
                             db.findOne(Profile, {_id: req.session.user}, '', function(active_user){
                                 var getComments = helper.getComments(postId);
                                 getComments.exec(function(err, comments){
-                                    res.render('indivpost', {
-                                        active_session: req.session.user && req.cookies.user_sid,
-                                        active_user: req.session.user,
-                                        post: post.toObject(),
-                                        user: active_user,
-                                        saved: active_user.postsSaved,
-                                        upvoted: active_user.postsUpVoted,
-                                        downvoted: active_user.postsDownVoted,
-                                        comments: comments
+                                    var getReplies = helper.getReplies(postId);
+                                    getReplies.exec(function(err, replies){
+                                        res.render('indivpost', {
+                                            active_session: req.session.user && req.cookies.user_sid,
+                                            active_user: req.session.user,
+                                            post: post.toObject(),
+                                            user: active_user,
+                                            saved: active_user.postsSaved,
+                                            upvoted: active_user.postsUpVoted,
+                                            downvoted: active_user.postsDownVoted,
+                                            comments: comments
+                                        })
                                     })
                                 })
                             })

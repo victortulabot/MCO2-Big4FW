@@ -157,6 +157,8 @@ app.post('/editPost',
 app.post('/editComment', postHelperController.editComment);
 // WIP
 app.get('/replyComment', postHelperController.replyComment);
+app.post('/editReply', postHelperController.editReply);
+app.get('/reply/delete/:replyId/:id/:commentid', postHelperController.deleteReply);
 // WIP
 app.get('/comment/delete/:commentId/:id', postHelperController.deleteComment);
 

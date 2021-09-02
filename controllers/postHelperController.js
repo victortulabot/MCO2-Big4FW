@@ -403,39 +403,24 @@ const postHelperController = {
     // WIP
     replyComment: function(req, res){
         var reply = helper.sanitize(req.query.replyBar);
-        console.log("1st")
         const content = {
             _id: new mongoose.Types.ObjectId(),
-            post: req.query.PostID,
             comment: req.query.CommentID,
             user: req.session.user,
             reply: reply,
         }
-        
-        Reply.create({
-            _id: new mongoose.Types.ObjectId(),
-            post: req.query.PostID,
-            comment: req.query.CommentID,
-            user: req.session.user,
-            reply: reply,
-        }, function(err, doc){
-            console.log("2nd")
-        }),
-        console.log("lumampas sa 2nd")
+        console.log(content);
         // if(req.query.PostUserID == req.session.user){
             db.insertOne(Reply, content, function(result){
                 if(result){
-                    console.log("3rd")
-                    db.updateOne(Post, {_id: req.query.PostID}, { $push: { replies: content._id } }, function(rep){
+                    db.updateOne(Comment, {_id: content.comment}, { $push: { replies: content._id } }, function(rep){
                         if(rep){
-                            console.log("4th")
                             db.findOne(User, {_id: req.session.user}, '', function(user){
                                 var r = {
                                     user: user,
                                     reply: reply
                                 }
-                                console.log("complete reply");
-                                res.render('partials/replyCard', c, function(err,html){
+                                res.render('partials/replyCard', r, function(err,html){
                                     res.send(html);
                                 })
                             })
@@ -467,7 +452,52 @@ const postHelperController = {
         //         }
         //     })
         // }
-    }
+    },
+
+    editReply: function(req, res){
+        var replyId = helper.sanitize(req.query.id);
+        var postId = helper.sanitize(req.query.postid);
+        var comment_id = helper.sanitize(req.query.commentid);
+        var reply = helper.sanitize(req.body.replyBar);
+
+        console.log(postId)
+        console.log(replyId)
+        console.log(comment_id)
+        console.log(reply)
+                            
+            db.updateOne(Reply, {_id: replyId}, {reply: reply}, function(result){ 
+                if(result){
+                    res.redirect('/post/'+postId); 
+                }
+            })
+    },
+
+    deleteReply: function(req, res){
+        console.log("1st")
+        var reply_id = helper.sanitize(req.params.replyId);
+        console.log('replyId', reply_id)
+        var comment_id = helper.sanitize(req.params.commentid)
+        console.log('commentid', comment_id)
+        var post_id = helper.sanitize(req.params.id)
+        
+        
+        console.log('postid', post_id)
+        var reply_details = {
+            _id: ObjectID(reply_id)
+        }
+
+        db.updateOne(Comment,{_id: comment_id}, {$pull: {replies: reply_id}}, function(post){
+            if(post){
+                db.deleteOne(Reply, reply_details, function(f){
+                    if(f){
+                        console.log('deleted: ', reply_id)
+                        res.redirect('/post/'+post_id);
+                    }
+                    
+                });
+            }
+        })
+    },
     // WIP
 }
 

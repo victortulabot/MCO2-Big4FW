@@ -17,11 +17,11 @@
           <div>
             <a href="" data-bs-toggle="modal" data-bs-target="#modalReplyComment{{_id}}">Reply</a>
           </div>
-          {{!-- <div id="displayReply">
+          <div id="displayReply">
               {{#each replies}}
-                  {{>replyCard activeid = ../active_user}}
+                  {{>replyCard activeid = ../activeid post_id = ../post_id comment_id = _id}}
               {{/each}}
-          </div> --}}
+          </div>
         </div>
         {{#match user._id activeid}}
         <div class ="dropdown" style="margin-left: 10px">
@@ -33,6 +33,11 @@
             </div>
         </div>
         {{/match}}
+        <div style="visibility: hidden">
+            <span class="userCreditScoree" id="postid" value="{{post}}">{{post}}</span>
+            <span class="userCreditScoree" id="postuser" >{{post_user}}</span>
+            <span class="userCreditScoree" id="commentid" >{{_id}}</span>
+        </div> 
 </div>
 
 
@@ -109,13 +114,8 @@
           <h4 class="modal-title"><strong>Reply to a Comment</strong></h4>
       </div>
       <div class="modal-body pb-0 mb-0">
-        <div style="visibility: hidden">
-            <span class="userCreditScoree" id="postid" >{{post_id}}</span>
-            <span class="userCreditScoree" id="postuser" >{{post_user}}</span>
-            <span class="userCreditScoree" id="commentid" >{{_id}}</span>
-        </div> 
         <!-- use method="post" to send your form to server -->
-        <form class="form-horizontal" id="replyComment" method="post" action="/replyComment?CommentID={{id}}&PostID={{post}}">
+        <form class="form-horizontal" id="replyComment" method="post" action="/replyComment?CommentID={{id}}&PostID={{post_id}}">
             
              <div class="form-group" style="margin-left: 15px;">
                <div class="col-xs-11">  

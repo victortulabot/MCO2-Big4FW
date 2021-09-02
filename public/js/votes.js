@@ -250,7 +250,7 @@ $("#replyCommentBtn").click(function(){
             CommentID: commentID,
             PostUserID: PostUserID
         }, function(data, status){
-            // $('#displayReply').append(data);
+            $('#displayReply').append(data);
             // var cc = $('#commentcount').text();
             // var count= parseInt(cc) + 1;
             // $('#commentcount').text(count);

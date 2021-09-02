@@ -3,6 +3,7 @@ const fs = require('fs');
 const Post = require('../models/PostModel');
 const Profile = require('../models/ProfileModel');
 const Comment = require('../models/CommentModel.js');
+const Reply = require('../models/ReplyModel.js');
 const db = require('../models/db.js');
 const ReplyModel = require('../models/ReplyModel');
 
@@ -104,6 +105,18 @@ const helper = {
                 populate: {
                     path: 'user',
                     options: { lean: true },
+                },
+            })
+            .populate({
+                path: 'comments',
+                options: { limit: 3, lean: true },
+                populate: {
+                    path: 'replies',
+                    options: { lean: true },
+                    populate: {
+                        path: 'user',
+                        options: { lean: true},
+                    }
                 },
             })
             .sort('-created')
@@ -210,12 +223,20 @@ const helper = {
     getComments: function(postId){
         return Comment.find({post: postId})
             .populate('user')
+            .populate({
+                path: 'replies',
+                options: { limit: 3, lean: true },
+                populate: {
+                    path: 'user',
+                    options: { lean: true },
+                },
+            })
             .sort('created')
             .lean()
     },
 
-    getReplies: function(commentId){
-        return ReplyModel.find({comment: commentId})
+    getReplies: function(postId){
+        return Reply.find({comment: postId})
             .populate('user')
             .sort('created')
             .lean()

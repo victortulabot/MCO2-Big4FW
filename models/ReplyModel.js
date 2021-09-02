@@ -6,10 +6,6 @@ const replySchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Profile'
     },
-    post: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post'
-    },
     comment: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
