@@ -14,14 +14,14 @@ const postSchema = mongoose.Schema({
         type: String, 
         required: true
     },
-    tags: {
-        type: [String],
-        required: true
-    },
-    photo: {
-        type: String,
-        default: null
-    },
+    // tags: {
+    //     type: [String],
+    //     required: true
+    // },
+    // photo: {
+    //     type: String,
+    //     default: null
+    // },
     university: {
         type: String,
         required: true

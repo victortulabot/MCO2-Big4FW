@@ -34,10 +34,10 @@ const profileSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    postsSaved: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post'
-    }],
+    // postsSaved: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Post'
+    // }],
     postsUpVoted: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
