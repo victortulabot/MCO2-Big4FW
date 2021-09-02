@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const commentSchema = mongoose.Schema({
+const replySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -11,21 +11,21 @@ const commentSchema = mongoose.Schema({
         ref: 'Post'
     },
     comment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    },
+    reply:{
         type: String,
         required: true
     },
-    c_edited: {
+    r_edited: {
         type: Boolean,
         default: false
     },
-    replies: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Reply'
-    }],
     created: {
         type: Date,
         default: Date.now,
     },
 })
 
-module.exports = mongoose.model('Comment', commentSchema);
+module.exports = mongoose.model('Reply', replySchema);

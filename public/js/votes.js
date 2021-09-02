@@ -236,22 +236,24 @@ $("#sendButton").click(function(){
 
 // WIP
 $("#replyCommentBtn").click(function(){
-    var commentBar = $('#commentBar').val();
+    var replyBar = $('#replyBar').val();
     var PostID = $('#postid').text();
     var PostUserID = $('#postuser').text();
+    var commentID = $('#commentid').text();
     
-    if(commentBar != ''){
-        $('#commentBar').val('');
+    if(replyBar != ''){
+        $('replyBar').val('');
         
         $.get('/replyComment',{
-            commentBar: commentBar,
+            replyBar:replyBar,
             PostID: PostID,
+            CommentID: commentID,
             PostUserID: PostUserID
         }, function(data, status){
-            $('#displayComment').append(data);
-            var cc = $('#commentcount').text();
-            var count= parseInt(cc) + 1;
-            $('#commentcount').text(count);
+            // $('#displayReply').append(data);
+            // var cc = $('#commentcount').text();
+            // var count= parseInt(cc) + 1;
+            // $('#commentcount').text(count);
         })
     }else{
         // $('#error').text('');

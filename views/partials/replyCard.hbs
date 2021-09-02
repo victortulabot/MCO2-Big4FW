@@ -8,32 +8,32 @@
               {{!-- <a class="a-link" href="/userid/{{user._id}}">{{user.username}}</a> --}}
               <p>{{user.username}}</p>
                 <span class="userCreditScoree" style="margin-left: 1px;">({{user.creditScore}} pts)</span>
-                {{#if c_edited}}
+                {{#if r_edited}}
                 <span style="text-align: left; font-style:italic; font-size:x-small; margin-left: 3px; float:right">( <i class="fa fa-pencil" aria-hidden="true"></i> Edited)</span>
                 {{/if}}
             </div>
-            <p>{{comment}}</p>
+            <p>{{reply}}</p>
           </div>
-          <div>
+          {{!-- <div>
             <a href="" data-bs-toggle="modal" data-bs-target="#modalReplyComment{{_id}}">Reply</a>
-          </div>
-          {{!-- <div id="displayReply">
-              {{#each replies}}
-                  {{>replyCard activeid = ../active_user}}
-              {{/each}}
           </div> --}}
         </div>
-        {{#match user._id activeid}}
+        {{!-- {{#match user._id activeid}}
         <div class ="dropdown" style="margin-left: 10px">
         <img src="/img/option.png" style="height: 20px; width: 23px; padding-right: 5px;" id="option1" title="Option">
             <div class="dropdown-content">
                 <a href="" data-bs-toggle="modal" data-bs-target="#modalEditComment{{_id}}">Edit Comment</a>
-                {{!-- <a href="/comment/delete/{{_id}}?id={{post}}">Delete Comment</a> --}}
                 <a href="" data-bs-toggle="modal" data-bs-target="#modalDeleteComment{{_id}}">Delete Comment</a>
             </div>
         </div>
-        {{/match}}
+        {{/match}} --}}
 </div>
+
+<div style="visibility: hidden">
+    <span class="userCreditScoree" id="postid" >{{post_id}}</span>
+    <span class="userCreditScoree" id="postuser" >{{post_user}}</span>
+    <span class="userCreditScoree" id="commentid" >{{_id}}</span>
+</div> 
 
 
 <!-- Modal -->
@@ -109,13 +109,8 @@
           <h4 class="modal-title"><strong>Reply to a Comment</strong></h4>
       </div>
       <div class="modal-body pb-0 mb-0">
-        <div style="visibility: hidden">
-            <span class="userCreditScoree" id="postid" >{{post_id}}</span>
-            <span class="userCreditScoree" id="postuser" >{{post_user}}</span>
-            <span class="userCreditScoree" id="commentid" >{{_id}}</span>
-        </div> 
         <!-- use method="post" to send your form to server -->
-        <form class="form-horizontal" id="replyComment" method="post" action="/replyComment?CommentID={{id}}&PostID={{post}}">
+        <form class="form-horizontal" id="replyComment" method="post" action="/replyComment?id={{_id}}&postid={{post}}">
             
              <div class="form-group" style="margin-left: 15px;">
                <div class="col-xs-11">  
@@ -138,7 +133,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" >Cancel</button>
-                <button type="button" class="btn btn-secondary" id="replyCommentBtn" data-bs-dismiss="modal">Post Reply</button>
+                <button type="submit" class="btn btn-secondary" id="replyCommentBtn">Post Reply</button>
             </div>
         </form>
       </div>

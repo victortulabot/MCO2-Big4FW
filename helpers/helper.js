@@ -4,6 +4,7 @@ const Post = require('../models/PostModel');
 const Profile = require('../models/ProfileModel');
 const Comment = require('../models/CommentModel.js');
 const db = require('../models/db.js');
+const ReplyModel = require('../models/ReplyModel');
 
 const helper = {
     sanitize: function (query) {
@@ -212,6 +213,13 @@ const helper = {
             .sort('created')
             .lean()
     },
+
+    getReplies: function(commentId){
+        return ReplyModel.find({comment: commentId})
+            .populate('user')
+            .sort('created')
+            .lean()
+    }
 
 
 };

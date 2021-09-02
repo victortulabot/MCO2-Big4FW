@@ -4,6 +4,7 @@ const { ObjectID } = require('mongodb');
 const User = require('../models/ProfileModel.js');
 const Post = require('../models/PostModel.js');
 const Comment = require('../models/CommentModel.js');
+const Reply = require('../models/ReplyModel.js');
 const helper = require('../helpers/helper.js');
 
 const postHelperController = {
@@ -178,18 +179,18 @@ const postHelperController = {
     },
 
 
-    savePost: function(req, res){
-        var post_id = helper.sanitize(req.query.post_id);
+    // savePost: function(req, res){
+    //     var post_id = helper.sanitize(req.query.post_id);
         
-        // console.log('postid', post_id)
-        // console.log('id', id)
-        db.updateOne(User, {_id: req.session.user }, {$push: {postsSaved: post_id} }, function (user) {
-            if(user){
+    //     // console.log('postid', post_id)
+    //     // console.log('id', id)
+    //     db.updateOne(User, {_id: req.session.user }, {$push: {postsSaved: post_id} }, function (user) {
+    //         if(user){
 
-            }
-            // res.redirect('/profile/'+id)
-        })
-    },
+    //         }
+    //         // res.redirect('/profile/'+id)
+    //     })
+    // },
 
     unsavePost: function(req, res){
         var post_id = helper.sanitize(req.query.post_id);
@@ -401,7 +402,71 @@ const postHelperController = {
 
     // WIP
     replyComment: function(req, res){
-
+        var reply = helper.sanitize(req.query.replyBar);
+        console.log("1st")
+        const content = {
+            _id: new mongoose.Types.ObjectId(),
+            post: req.query.PostID,
+            comment: req.query.CommentID,
+            user: req.session.user,
+            reply: reply,
+        }
+        
+        Reply.create({
+            _id: new mongoose.Types.ObjectId(),
+            post: req.query.PostID,
+            comment: req.query.CommentID,
+            user: req.session.user,
+            reply: reply,
+        }, function(err, doc){
+            console.log("2nd")
+        }),
+        console.log("lumampas sa 2nd")
+        // if(req.query.PostUserID == req.session.user){
+            db.insertOne(Reply, content, function(result){
+                if(result){
+                    console.log("3rd")
+                    db.updateOne(Post, {_id: req.query.PostID}, { $push: { replies: content._id } }, function(rep){
+                        if(rep){
+                            console.log("4th")
+                            db.findOne(User, {_id: req.session.user}, '', function(user){
+                                var r = {
+                                    user: user,
+                                    reply: reply
+                                }
+                                console.log("complete reply");
+                                res.render('partials/replyCard', c, function(err,html){
+                                    res.send(html);
+                                })
+                            })
+                        }
+                    })
+                }
+            })
+        // } 
+        // else{
+        //     db.insertOne(Reply, content, function(result){
+        //         if(result){
+        //             db.updateOne(User, {_id: req.query.PostUserID}, {$inc: {creditScore: 3}}, function(user){
+        //                 if(user){
+        //                     db.updateOne(Post, {_id: req.query.PostID}, { $push: { replies: content._id } }, function(rep){
+        //                         if(rep){
+        //                             db.findOne(User, {_id: req.session.user}, '', function(user){
+        //                                 var r = {
+        //                                     user: user,
+        //                                     reply: reply
+        //                                 }
+        //                                 res.render('partials/replyCard', c, function(err,html){
+        //                                     res.send(html);
+        //                                 })
+        //                             })
+        //                         }
+        //                     })
+        //                 }
+        //             })
+        //         }
+        //     })
+        // }
     }
     // WIP
 }

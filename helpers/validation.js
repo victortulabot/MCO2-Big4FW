@@ -67,15 +67,15 @@ const validation = {
             check('body')
                 .notEmpty()
                 .withMessage('Please enter your post content'),
-            check('tags').customSanitizer(value =>
-                value.split(','),
-            ),
-            check('tags.*')
-                .trim()
-                .matches(/^#\w+$/)
-                .withMessage('Invalid tag')
-                .bail()
-                .trim()
+            // check('tags').customSanitizer(value =>
+            //     value.split(','),
+            // ),
+            // check('tags.*')
+            //     .trim()
+            //     .matches(/^#\w+$/)
+            //     .withMessage('Invalid tag')
+            //     .bail()
+            //     .trim()
         ]
     },
 };

@@ -54,7 +54,8 @@
             </div>
             <span class="timeline-author">
                 <div class="author">  
-                    <a class="a-link" href="/userid/{{user._id}}">By: {{user.username}}</a>
+                    {{!-- <a class="a-link" href="/userid/{{user._id}}">By: {{user.username}}</a> --}}
+                    <p>By: {{user.username}}</p>
                 </div>
                 <div class="userCreditScoree">({{user.creditScore}} pts)</div>    
             </span>
@@ -212,7 +213,7 @@
                 <div class="col-sm-7"></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" >Cancel</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Cancel</button>
                 <button type="submit" class="btn btn-danger" id="saveBtn">Delete</button>
             </div>
         </form>

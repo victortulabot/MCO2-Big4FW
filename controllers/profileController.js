@@ -12,19 +12,19 @@ const profileController = {
             db.findOne(Profile, {_id: userId}, '', function(user){
                 var getPost = helper.getUserPost(userId);
                 getPost.exec(function(err, post){
-                    console.log("saved", post.length);
+                    // console.log("saved", post.length);
 
-                    var getSavedPost = helper.getSavedPost(userId);
-                    getSavedPost
-                    .exec(function(err, saves){
-                        console.log("saved", user.postsSaved.length);
+                    // var getSavedPost = helper.getSavedPost(userId);
+                    // getSavedPost
+                    // .exec(function(err, saves){
+                    //     console.log("saved", user.postsSaved.length);
 
-                        var sa=false;
+                    //     var sa=false;
                         var pa=false;
                    
-                        if(user.postsSaved.length == 0){
-                            sa = true
-                        }
+                    //     if(user.postsSaved.length == 0){
+                    //         sa = true
+                    //     }
 
                         if(post.length == 0){
                             pa = true
@@ -36,15 +36,15 @@ const profileController = {
                             active_user: req.session.user,
                             user: user.toObject(),
                             posts: post,
-                            display_save: saves[0].postsSaved,
-                            saved: user.postsSaved,
+                            // display_save: saves[0].postsSaved,
+                            // saved: user.postsSaved,
                             profile: true,
                             upvoted: user.postsUpVoted,
                             downvoted: user.postsDownVoted,
-                            sa: sa,
+                            // sa: sa,
                             pa: pa
                         })
-                    })
+                    // })
                 })
             })
         }
@@ -102,21 +102,21 @@ const profileController = {
             db.findOne(Profile, {_id: userId}, '', function(user){
                 var getPost = helper.getUserPost(userId);
                 getPost.exec(function(err, post){
-                    var getSavedPost = helper.getSavedPost(userId);
-                    getSavedPost.exec(function(err, saves){
-                        console.log(saves[0].postsSaved)
+                    // var getSavedPost = helper.getSavedPost(userId);
+                    // getSavedPost.exec(function(err, saves){
+                    //     console.log(saves[0].postsSaved)
                         if (err) throw err;
                         res.render('profile', {
                             active_session: req.session.user && req.cookies.user_sid,
                             active_user: req.session.user,
                             user: user.toObject(),
                             posts: post,
-                            saved: user.postsSaved,
+                            // saved: user.postsSaved,
                             profile: false,
                             upvoted: user.postsUpVoted,
                             downvoted: user.postsDownVoted
                         })
-                    })
+                    // })
                 })
             })
 
