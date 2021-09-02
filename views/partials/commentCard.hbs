@@ -19,7 +19,7 @@
           </div>
           <div id="displayReply">
               {{#each replies}}
-                  {{>replyCard activeid = ../activeid post_id = ../post_id comment_id = _id}}
+                  {{>replyCard activeid = ../activeid post_id = ../postid comment_id = ../_id}}
               {{/each}}
           </div>
         </div>
