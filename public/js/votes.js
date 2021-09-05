@@ -242,7 +242,7 @@ $("#replyCommentBtn").click(function(){
     var commentID = $('#commentid').text();
     
     if(replyBar != ''){
-        $('replyBar').val('');
+        $('#replyBar').val('');
         
         $.get('/replyComment',{
             replyBar:replyBar,

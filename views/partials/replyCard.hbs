@@ -21,7 +21,7 @@
         <div class ="dropdown" style="margin-left: 10px">
         <img src="/img/option.png" style="height: 20px; width: 23px; padding-right: 5px;" id="option1" title="Option">
             <div class="dropdown-content">
-                <a href="" data-bs-toggle="modal" data-bs-target="#modalEditReply{{_id}}">Edit Reply</a>
+                {{!-- <a href="" data-bs-toggle="modal" data-bs-target="#modalEditReply{{_id}}">Edit Reply</a> --}}
                 <a href="" data-bs-toggle="modal" data-bs-target="#modalDeleteReply{{_id}}">Delete Reply</a>
             </div>
         </div>
@@ -31,12 +31,12 @@
 <div style="visibility: hidden">
     <span class="userCreditScoree" id="postid" >{{post_id}}</span>
     <span class="userCreditScoree" id="postuser" >{{post_user}}</span>
-    <span class="userCreditScoree" id="commentid" >{{_id}}</span>
+    <span class="userCreditScoree" id="commentid" >{{comment_id}}</span>
 </div> 
 
 
 <!-- Modal -->
-<div class="modal fade border" id="modalEditReply{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+{{!-- <div class="modal fade border" id="modalEditReply{{_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document" style="width: 600px">
     <div class="modal-content">
       <div class="modal-header">
@@ -67,7 +67,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 
 
 <!-- Modal -->
