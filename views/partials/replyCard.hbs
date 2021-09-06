@@ -1,4 +1,4 @@
-<div class="comment-container">
+<div class="comment-container reply-container">
         <div class="comment-user">
             <img class="comment-img" src="/avatars/{{user.avatar}}">
         </div>
@@ -12,6 +12,7 @@
                 {{/if}}
             </div>
             <p>{{reply}}</p>
+            {{!-- <p>comment {{comment_id}}</p> --}}
           </div>
           {{!-- <div>
             <a href="" data-bs-toggle="modal" data-bs-target="#modalReplyComment{{_id}}">Reply</a>
@@ -28,7 +29,7 @@
         {{/match}}
 </div>
 
-<div style="visibility: hidden">
+<div style="visibility: hidden; margin-bottom: -10px;">
     <span class="userCreditScoree" id="postid" >{{post_id}}</span>
     <span class="userCreditScoree" id="postuser" >{{post_user}}</span>
     <span class="userCreditScoree" id="commentid" >{{comment_id}}</span>

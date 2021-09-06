@@ -112,7 +112,7 @@ const helper = {
                 options: { limit: 3, lean: true },
                 populate: {
                     path: 'replies',
-                    options: { lean: true },
+                    options: { limit: 3, lean: true },
                     populate: {
                         path: 'user',
                         options: { lean: true},
@@ -139,7 +139,7 @@ const helper = {
                 options: { limit: 3, lean: true },
                 populate: {
                     path: 'replies',
-                    options: { lean: true },
+                    options: { limit: 3, lean: true },
                     populate: {
                         path: 'user',
                         options: { lean: true},
@@ -166,7 +166,7 @@ const helper = {
                 options: { limit: 3, lean: true },
                 populate: {
                     path: 'replies',
-                    options: { lean: true },
+                    options: { limit: 3, lean: true },
                     populate: {
                         path: 'user',
                         options: { lean: true},
@@ -193,7 +193,7 @@ const helper = {
                 options: { limit: 3, lean: true },
                 populate: {
                     path: 'replies',
-                    options: { lean: true },
+                    options: { limit: 3, lean: true },
                     populate: {
                         path: 'user',
                         options: { lean: true},
@@ -220,7 +220,7 @@ const helper = {
                 options: { limit: 3, lean: true },
                 populate: {
                     path: 'replies',
-                    options: { lean: true },
+                    options: { limit: 3, lean: true },
                     populate: {
                         path: 'user',
                         options: { lean: true},
@@ -286,6 +286,21 @@ const helper = {
             .populate({
                 path: 'replies',
                 options: { limit: 3, lean: true },
+                populate: {
+                    path: 'user',
+                    options: { lean: true },
+                },
+            })
+            .sort('created')
+            .lean()
+    },
+
+    getAllComments: function(postId){
+        return Comment.find({post: postId})
+            .populate('user')
+            .populate({
+                path: 'replies',
+                options: { lean: true },
                 populate: {
                     path: 'user',
                     options: { lean: true },
