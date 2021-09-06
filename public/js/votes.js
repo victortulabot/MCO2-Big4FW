@@ -239,36 +239,36 @@ function stopRealTime() {
             if($(this).next().attr("src") == 'http://localhost:9090/img/downvoted.png'){
                 $(this).next().attr("src","/img/downvote.png")
                 var dv = $('#downvotecount_'+post_id).text();
-                var downvote = parseInt(dv) - 1;
+                var downvote = parseInt(dv) - 2;
                 // $('#downvotecount_'+post_id).text(downvote);
             }
             else if($(this).next().attr("src") == '/img/downvoted.png'){
                 $(this).next().attr("src","/img/downvote.png")
                 var dv = $('#downvotecount_'+post_id).text();
-                var downvote = parseInt(dv) - 1;
+                var downvote = parseInt(dv) - 2;
                 // $('#downvotecount_'+post_id).text(downvote);
             }else if($(this).next().attr("src") == 'https://big-four-fw.herokuapp.com/img/downvoted.png'){
                 $(this).next().attr("src","/img/downvote.png")
                 var dv = $('#downvotecount_'+post_id).text();
-                var downvote = parseInt(dv) - 1;
+                var downvote = parseInt(dv) - 2;
                 // $('#downvotecount_'+post_id).text(downvote);
             }else if($(this).next().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/downvoted.png'){
                 $(this).next().attr("src","/img/downvote.png")
                 var dv = $('#downvotecount_'+post_id).text();
-                var downvote = parseInt(dv) - 1;
+                var downvote = parseInt(dv) - 2;
                 // $('#downvotecount_'+post_id).text(downvote);
             }
 
             $.get('/post/upvote/'+post_id, {post_id: post_id, puid: puid})
             var uv = $('#upvotecount_'+post_id).text();
-            var upvote = parseInt(uv) + 1;
+            var upvote = parseInt(uv) + 2;
             // $('#upvotecount_'+post_id).text(upvote);
         }
         else{
             this.src = "/img/upvote.png";
             $.get('/post/unupvote/'+post_id, {post_id: post_id, puid: puid})
             var uv = $('#upvotecount_'+post_id).text();
-            var upvote = parseInt(uv) - 1;
+            var upvote = parseInt(uv) - 2;
             // $('#upvotecount_'+post_id).text(upvote);
         }
     } 
@@ -286,29 +286,29 @@ $(".downvote").click(function() {
             if($(this).prev().attr("src") == 'http://localhost:9090/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
                 var uv = $('#upvotecount_'+post_id).text();
-                var upvote = parseInt(uv) - 1;
+                var upvote = parseInt(uv) - 2;
                 // $('#upvotecount_'+post_id).text(upvote);
             }
             else if($(this).prev().attr("src") == '/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
                 var uv = $('#upvotecount_'+post_id).text();
-                var upvote = parseInt(uv) - 1;
+                var upvote = parseInt(uv) - 2;
                 // $('#upvotecount_'+post_id).text(upvote);
             }else if($(this).prev().attr("src") == 'https://big-four-fw.herokuapp.com/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
                 var uv = $('#upvotecount_'+post_id).text();
-                var upvote = parseInt(uv) - 1;
+                var upvote = parseInt(uv) - 2;
                 // $('#upvotecount_'+post_id).text(upvote);
             }else if($(this).prev().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
                 var uv = $('#upvotecount_'+post_id).text();
-                var upvote = parseInt(uv) - 1;
+                var upvote = parseInt(uv) - 2;
                 // $('#upvotecount_'+post_id).text(upvote);
             }
 
             $.get('/post/downvote/'+post_id, {post_id: post_id, puid: puid})
             var dv = $('#downvotecount_'+post_id).text();
-            var downvote = parseInt(dv) + 1;
+            var downvote = parseInt(dv) + 2;
             // $('#downvotecount_'+post_id).text(downvote);
            
         }
@@ -316,7 +316,7 @@ $(".downvote").click(function() {
             this.src = "/img/downvote.png";
             $.get('/post/undownvote/'+post_id, {post_id: post_id, puid: puid})
             var dv = $('#downvotecount_'+post_id).text();
-            var downvote = parseInt(dv) - 1;
+            var downvote = parseInt(dv) - 2;
             // $('#downvotecount_'+post_id).text(downvote);
         }
        
