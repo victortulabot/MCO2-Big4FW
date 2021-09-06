@@ -4,7 +4,10 @@ const Profile = require('../models/ProfileModel');
 const Post = require('../models/PostModel.js');
 
 const realTimeController = {
-    
+    getSession: function(req, res){
+        res.send(req.session.user);
+    },
+
     getOwnCS: function(req, res) {
         db.findOne(Profile, {_id: req.session.user}, '', function(user){
             var CS = user.creditScore.toString()
@@ -15,7 +18,7 @@ const realTimeController = {
     getPD: function(req, res) {
         var getPost = helper.getAllPosts();
         getPost.exec(function(err, post){
-            res.send(post)
+            res.send(post);
         })
     },
 }

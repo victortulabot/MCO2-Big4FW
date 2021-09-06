@@ -166,6 +166,7 @@ app.get('/reply/delete/:replyId/:id/:commentid', postHelperController.deleteRepl
 app.get('/comment/delete/:commentId/:id', postHelperController.deleteComment);
 
 // realTimeController
+app.get('/getSession', realTimeController.getSession);
 app.get('/getOwnCS', realTimeController.getOwnCS);
 app.get('/getpostDetails', realTimeController.getPD);
 
