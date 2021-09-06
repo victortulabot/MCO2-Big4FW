@@ -233,7 +233,7 @@ function stopRealTime() {
     var puid = $(this).parent().next().find('p:nth-child(2)').text();
 
     if ($(this).attr("class") == "upvote"){
-        if((this.src == "http://localhost:9090/img/upvote.png") || (this.src == "/img/upvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/upvote.png")){
+        if((this.src == "http://localhost:9090/img/upvote.png") || (this.src == "/img/upvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/upvote.png") || (this.src == "https://mco2-big4fw.herokuapp.com/img/upvote.png")){
             this.src = "/img/upvoted.png";
     
             if($(this).next().attr("src") == 'http://localhost:9090/img/downvoted.png'){
@@ -248,6 +248,11 @@ function stopRealTime() {
                 var downvote = parseInt(dv) - 1;
                 // $('#downvotecount_'+post_id).text(downvote);
             }else if($(this).next().attr("src") == 'https://big-four-fw.herokuapp.com/img/downvoted.png'){
+                $(this).next().attr("src","/img/downvote.png")
+                var dv = $('#downvotecount_'+post_id).text();
+                var downvote = parseInt(dv) - 1;
+                // $('#downvotecount_'+post_id).text(downvote);
+            }else if($(this).next().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/downvoted.png'){
                 $(this).next().attr("src","/img/downvote.png")
                 var dv = $('#downvotecount_'+post_id).text();
                 var downvote = parseInt(dv) - 1;
@@ -275,7 +280,7 @@ $(".downvote").click(function() {
     var puid = $(this).parent().next().find('p:nth-child(2)').text();
 
     if ($(this).attr("class") == "downvote"){
-      if((this.src == "http://localhost:9090/img/downvote.png") || (this.src == "/img/downvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/downvote.png")){
+      if((this.src == "http://localhost:9090/img/downvote.png") || (this.src == "/img/downvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/downvote.png") || (this.src == "https://mco2-big4fw.herokuapp.com/img/downvote.png")){
             this.src = "/img/downvoted.png";
  
             if($(this).prev().attr("src") == 'http://localhost:9090/img/upvoted.png'){
@@ -294,7 +299,11 @@ $(".downvote").click(function() {
                 var uv = $('#upvotecount_'+post_id).text();
                 var upvote = parseInt(uv) - 1;
                 // $('#upvotecount_'+post_id).text(upvote);
-
+            }else if($(this).prev().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/upvoted.png'){
+                $(this).prev().attr("src","/img/upvote.png")
+                var uv = $('#upvotecount_'+post_id).text();
+                var upvote = parseInt(uv) - 1;
+                // $('#upvotecount_'+post_id).text(upvote);
             }
 
             $.get('/post/downvote/'+post_id, {post_id: post_id, puid: puid})
