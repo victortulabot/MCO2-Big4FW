@@ -129,3 +129,8 @@ if(port == null || port == "") {
 app.listen(port, function () {
     console.log('app listening at port ' + port);
 });
+
+app.on('clientError', (err, socket) => {
+    console.error(err);
+    socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+  });
