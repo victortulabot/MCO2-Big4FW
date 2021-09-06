@@ -94,9 +94,17 @@ var ownCSVar = setInterval(getOCS, 500);
 
 function getOCS() {
     var ptsString = " pts";
-    $.get('/getOwnCS', function(ownCreditScore, status){
-        var updatedCreditScore = ownCreditScore.concat(ptsString);
-        $('#creditScore').text(updatedCreditScore);
+    $.get('/getSession', function(curSession, status){
+        if (curSession == null){
+            clearInterval(ownCSVar);
+            clearInterval(postUserCSVar);
+        }
+        else{
+            $.get('/getOwnCS', function(ownCreditScore, status){
+                var updatedCreditScore = ownCreditScore.concat(ptsString);
+                $('#creditScore').text(updatedCreditScore);
+            })
+        }
     })
 }
 
