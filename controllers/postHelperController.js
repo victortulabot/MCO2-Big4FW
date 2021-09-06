@@ -223,7 +223,8 @@ const postHelperController = {
                             db.findOne(User, {_id: req.session.user}, '', function(user){
                                 var c = {
                                     user: user,
-                                    comment: comment
+                                    comment: comment,
+                                    activeid: req.session.user
                                 }
                                 res.render('partials/commentCard', c, function(err,html){
                                     res.send(html);
@@ -410,48 +411,25 @@ const postHelperController = {
             reply: reply,
         }
         console.log(content);
-        // if(req.query.PostUserID == req.session.user){
-            db.insertOne(Reply, content, function(result){
-                if(result){
-                    db.updateOne(Comment, {_id: content.comment}, { $push: { replies: content._id } }, function(rep){
-                        if(rep){
-                            db.findOne(User, {_id: req.session.user}, '', function(user){
-                                var r = {
-                                    user: user,
-                                    reply: reply
-                                }
-                                res.render('partials/replyCard', r, function(err,html){
-                                    res.send(html);
-                                })
+        
+        db.insertOne(Reply, content, function(result){
+            if(result){
+                db.updateOne(Comment, {_id: req.query.CommentID}, { $push: { replies: content._id } }, function(rep){
+                    if(rep){
+                        db.findOne(User, {_id: req.session.user}, '', function(user){
+                            var r = {
+                                user: user,
+                                reply: reply,
+                                activeid: req.session.user
+                            }
+                            res.render('partials/replyCard', r, function(err,html){
+                                res.send(html);
                             })
-                        }
-                    })
-                }
-            })
-        // } 
-        // else{
-        //     db.insertOne(Reply, content, function(result){
-        //         if(result){
-        //             db.updateOne(User, {_id: req.query.PostUserID}, {$inc: {creditScore: 3}}, function(user){
-        //                 if(user){
-        //                     db.updateOne(Post, {_id: req.query.PostID}, { $push: { replies: content._id } }, function(rep){
-        //                         if(rep){
-        //                             db.findOne(User, {_id: req.session.user}, '', function(user){
-        //                                 var r = {
-        //                                     user: user,
-        //                                     reply: reply
-        //                                 }
-        //                                 res.render('partials/replyCard', c, function(err,html){
-        //                                     res.send(html);
-        //                                 })
-        //                             })
-        //                         }
-        //                     })
-        //                 }
-        //             })
-        //         }
-        //     })
-        // }
+                        })
+                    }
+                })
+            }
+        })
     },
 
     editReply: function(req, res){

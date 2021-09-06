@@ -62,12 +62,12 @@
             <div class="timeline-body" style="margin-top: 12px;">
                 <p>{{body}}</p>
             </div>
-            <div class="timeline-photo">
+            {{!-- <div class="timeline-photo">
                 {{#match photo null}}
                 {{else}}
                 <img src="/posts/{{photo}}" width="250" height="250">
                 {{/match}}
-            </div>
+            </div> --}}
             {{!-- <div class="userTagss" title="Tags">
                 <span>
                     Tags: 
@@ -113,7 +113,7 @@
             <div class="timeline-panel">
                 <div id="displayComment">
                     {{#each comments}}
-                        {{>commentCard activeid = ../active_user postid = ../_id}}
+                        {{>commentCard activeid = ../activeid postid = ../_id}}
                     {{/each}}
                 </div>
             </div>
