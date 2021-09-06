@@ -12,13 +12,13 @@ const postHelperController = {
     upvotePost: function(req, res) {
         var post_id = helper.sanitize(req.query.post_id);
         if(req.query.puid == req.session.user){
-            db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -2}}, function(post){
+            db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
                         if(user){
                             //console.log(user);
-                            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: 2}}, function(post){
+                            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.query.upvoteCount}}, function(post){
                                 if(post){
                                     //console.log(post);
                                     db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
@@ -33,15 +33,15 @@ const postHelperController = {
                 }
             }) 
         } else{
-            db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -2}}, function(post){
+            db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
                         if(user){
                             //console.log(user);
-                            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: 2}}, function(post){
+                            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.query.upvoteCount}}, function(post){
                                 if(post){
-                                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: 2}}, function(credit){
+                                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: req.query.upvoteCredit}}, function(credit){
                                         if(credit){
 
                                             db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
@@ -64,7 +64,7 @@ const postHelperController = {
         var post_id = helper.sanitize(req.query.post_id);
 
         if(req.query.puid == req.session.user){
-            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -2}}, function(post){
+            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -req.query.upvoteCount}}, function(post){
                 if(post){
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsUpVoted: post_id}}, function(user){
                         if(user){
@@ -74,9 +74,9 @@ const postHelperController = {
                 }
             })       
         } else{
-            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -2}}, function(post){
+            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -req.query.upvoteCount}}, function(post){
                 if(post){
-                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: -2}}, function(credit){
+                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: -req.query.upvoteCredit}}, function(credit){
                         if(credit){
                             db.updateOne(User,{_id: req.session.user}, {$pull: {postsUpVoted: post_id}}, function(user){
                                 if(user){
@@ -94,13 +94,13 @@ const postHelperController = {
         var post_id = helper.sanitize(req.query.post_id);
 
         if(req.query.puid == req.session.user){
-            db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -2}}, function(post){
+            db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -req.query.upvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsUpVoted: post_id}}, function(user){
                         if(user){
                             //console.log(user);
-                            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: 2}}, function(post){
+                            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: req.query.downvoteCount}}, function(post){
                                 if(post){
                                     //console.log(post);
                                     db.updateOne(User,{_id: req.session.user}, {$push: {postsDownVoted: post_id}}, function(user){
@@ -116,15 +116,15 @@ const postHelperController = {
                 }
             })      
         } else{
-            db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -2}}, function(post){
+            db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -req.query.upvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsUpVoted: post_id}}, function(user){
                         if(user){
                             //console.log(user);
-                            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: 2}}, function(post){
+                            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: req.query.downvoteCount}}, function(post){
                                 if(post){
-                                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: -2}}, function(credit){
+                                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: -req.query.downvoteCredit}}, function(credit){
                                         if(credit){
                                             db.updateOne(User,{_id: req.session.user}, {$push: {postsDownVoted: post_id}}, function(user){
                                                 if(user){
@@ -150,7 +150,7 @@ const postHelperController = {
         var post_id = helper.sanitize(req.query.post_id);
 
         if(req.query.puid == req.session.user){
-            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -2}}, function(post){
+            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
@@ -161,10 +161,10 @@ const postHelperController = {
                 }
             })
         } else{
-            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -2}}, function(post){
+            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
-                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: 2}}, function(credit){
+                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: req.query.downvoteCredit}}, function(credit){
                         if(credit){
                             db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
                                 if(user){
