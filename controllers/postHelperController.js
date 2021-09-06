@@ -224,7 +224,9 @@ const postHelperController = {
                                 var c = {
                                     user: user,
                                     comment: comment,
-                                    activeid: req.session.user
+                                    activeid: req.session.user,
+                                    _id: content._id,
+                                    postid: content.post
                                 }
                                 res.render('partials/commentCard', c, function(err,html){
                                     res.send(html);
@@ -244,7 +246,10 @@ const postHelperController = {
                                     db.findOne(User, {_id: req.session.user}, '', function(user){
                                         var c = {
                                             user: user,
-                                            comment: comment
+                                            comment: comment,
+                                            activeid: req.session.user,
+                                            _id: content._id,
+                                            postid: content.post
                                         }
                                         res.render('partials/commentCard', c, function(err,html){
                                             res.send(html);
@@ -372,7 +377,7 @@ const postHelperController = {
         console.log(commentId)
         console.log(comment)
                             
-            db.updateOne(Comment, {_id: commentId}, {comment: comment}, function(result){ 
+            db.updateOne(Comment, {_id: commentId}, {comment: comment, c_edited: true}, function(result){ 
                 if(result){
                     res.redirect('/post/'+postId); 
                 }
@@ -411,7 +416,7 @@ const postHelperController = {
             reply: reply,
         }
         console.log(content);
-        
+
         db.insertOne(Reply, content, function(result){
             if(result){
                 db.updateOne(Comment, {_id: req.query.CommentID}, { $push: { replies: content._id } }, function(rep){
@@ -420,7 +425,10 @@ const postHelperController = {
                             var r = {
                                 user: user,
                                 reply: reply,
-                                activeid: req.session.user
+                                activeid: req.session.user,
+                                comment_id: req.query.CommentID,
+                                post_id: req.query.PostID,
+                                _id: content._id
                             }
                             res.render('partials/replyCard', r, function(err,html){
                                 res.send(html);
