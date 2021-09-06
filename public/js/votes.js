@@ -99,10 +99,12 @@ function getOCS() {
             clearInterval(ownCSVar);
             clearInterval(postUserCSVar);
         }
-    })
-    $.get('/getOwnCS', function(ownCreditScore, status){
-        var updatedCreditScore = ownCreditScore.concat(ptsString);
-        $('#creditScore').text(updatedCreditScore);
+        else{
+            $.get('/getOwnCS', function(ownCreditScore, status){
+                var updatedCreditScore = ownCreditScore.concat(ptsString);
+                $('#creditScore').text(updatedCreditScore);
+            })
+        }
     })
 }
 
