@@ -123,6 +123,12 @@ function getPD() {
     })
 }
 
+// stop interval
+function stopRealTime() {
+    clearInterval(ownCSVar);
+    clearInterval(postUserCSVar);
+}
+
   // $('img').click(function(){
   //     var type = this.id.split(',')[0];
   //     var post_id = this.id.split(',')[1];
