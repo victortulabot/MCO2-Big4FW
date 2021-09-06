@@ -134,6 +134,18 @@ const helper = {
                     options: { lean: true },
                 },
             })
+            .populate({
+                path: 'comments',
+                options: { limit: 3, lean: true },
+                populate: {
+                    path: 'replies',
+                    options: { lean: true },
+                    populate: {
+                        path: 'user',
+                        options: { lean: true},
+                    }
+                },
+            })
             .sort('-created')
             .lean()
     },
@@ -147,6 +159,18 @@ const helper = {
                 populate: {
                     path: 'user',
                     options: { lean: true },
+                },
+            })
+            .populate({
+                path: 'comments',
+                options: { limit: 3, lean: true },
+                populate: {
+                    path: 'replies',
+                    options: { lean: true },
+                    populate: {
+                        path: 'user',
+                        options: { lean: true},
+                    }
                 },
             })
             .sort('-created')
@@ -164,6 +188,18 @@ const helper = {
                     options: { lean: true },
                 },
             })
+            .populate({
+                path: 'comments',
+                options: { limit: 3, lean: true },
+                populate: {
+                    path: 'replies',
+                    options: { lean: true },
+                    populate: {
+                        path: 'user',
+                        options: { lean: true},
+                    }
+                },
+            })
             .sort('-created')
             .lean()
     },
@@ -179,6 +215,18 @@ const helper = {
                     options: { lean: true },
                 },
             })
+            .populate({
+                path: 'comments',
+                options: { limit: 3, lean: true },
+                populate: {
+                    path: 'replies',
+                    options: { lean: true },
+                    populate: {
+                        path: 'user',
+                        options: { lean: true},
+                    }
+                },
+            })
             .sort('-created')
             .lean()
     },
@@ -192,6 +240,18 @@ const helper = {
                 populate: {
                     path: 'user',
                     options: { lean: true },
+                },
+            })
+            .populate({
+                path: 'comments',
+                options: { limit: 3, lean: true },
+                populate: {
+                    path: 'replies',
+                    options: { lean: true },
+                    populate: {
+                        path: 'user',
+                        options: { lean: true},
+                    }
                 },
             })
             .sort('-created')
