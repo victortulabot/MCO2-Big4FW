@@ -9,10 +9,16 @@ const realTimeController = {
     },
 
     getOwnCS: function(req, res) {
-        db.findOne(Profile, {_id: req.session.user}, '', function(user){
-            var CS = user.creditScore.toString()
-            res.send(CS);
-        })
+        if(req.session.user == null){
+            
+        }
+        else{
+            db.findOne(Profile, {_id: req.session.user}, '', function(user){
+                var CS = user.creditScore.toString()
+                res.send(CS);
+            })
+        }
+        
     },
 
     getPD: function(req, res) {
