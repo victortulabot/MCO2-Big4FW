@@ -23,6 +23,9 @@ const profileController = require('../controllers/profileController.js');
 // import helper controller
 const postHelperController = require('../controllers/postHelperController.js');
 
+// import realtime controller
+const realTimeController = require('../controllers/realTimeController.js');
+
 const app = express();
 
 // initialize multer for file upload use 
@@ -161,6 +164,9 @@ app.post('/editReply', postHelperController.editReply);
 app.get('/reply/delete/:replyId/:id/:commentid', postHelperController.deleteReply);
 // WIP
 app.get('/comment/delete/:commentId/:id', postHelperController.deleteComment);
+
+// realTimeController
+app.get('/getOwnCS', realTimeController.getOwnCS);
 
 //logout
 app.get('/logout', function (req, res) {

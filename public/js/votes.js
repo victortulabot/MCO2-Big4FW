@@ -72,6 +72,38 @@
 // };
 
 $(document).ready(function () {
+
+    // comment out muna
+// var t = 0
+//     var myVar = setInterval(myTimer, 0);
+
+// function myTimer() {
+//     var d = new Date();
+//     var ptsString = " pts";
+//     //   var t = d.toLocaleTimeString();
+//     t += 1;
+//     var numberString = t.toString();
+//     var updatedCreditScore = numberString.concat(ptsString);
+
+//     document.getElementById("creditScore").innerHTML = updatedCreditScore;
+// }
+
+// hanggang dito
+
+var ownCSVar = setInterval(getOCS, 500);
+
+function getOCS() {
+    var ptsString = " pts";
+    $.get('/getOwnCS', function(data, status){
+        var updatedCreditScore = data.concat(ptsString);
+        // var cc = $('#commentcount').text();
+        // var count= parseInt(cc) + 1;
+        $('#creditScore').text(updatedCreditScore);
+    })
+
+    document.getElementById("creditScore").innerHTML = updatedCreditScore;
+}
+
   // $('img').click(function(){
   //     var type = this.id.split(',')[0];
   //     var post_id = this.id.split(',')[1];
