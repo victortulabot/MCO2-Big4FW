@@ -1,5 +1,5 @@
 {
-  "name": "x22g1",
+  "name": "mco2-big4fw",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ccapdev1920T2/x22g1.git"
+    "url": "git+https://github.com/victortulabot/MCO2-Big4FW.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ccapdev1920T2/x22g1/issues"
+    "url": "https://github.com/victortulabot/MCO2-Big4FW/issues"
   },
-  "homepage": "https://github.com/ccapdev1920T2/x22g1#readme",
+  "homepage": "https://github.com/victortulabot/MCO2-Big4FW#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
