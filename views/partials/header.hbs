@@ -42,23 +42,23 @@
     </div>
 </nav>
 
-<script>
+{{!-- <script>
     // For search
-    var input = document.getElementById("search");
-    var inputbtn = document.getElementById("searchbtn")
+   // var input = document.getElementById("search");
+   // var inputbtn = document.getElementById("searchbtn")
     // Execute a function when the user releases a key on the keyboard
-    input.addEventListener("keyup", function (event) {
+ //   input.addEventListener("keyup", function (event) {
         // Number 13 is the "Enter" key on the keyboard
-        var search = document.getElementById("search").value;
-        if (event.keyCode === 13) {
+   //     var search = document.getElementById("search").value;
+     //   if (event.keyCode === 13) {
             // Cancel the default action, if needed
-            event.preventDefault();
+          //  event.preventDefault();
             // Trigger the button element with a click
-            window.location = "/timeline/search?msg=" + encodeURIComponent(search);
+        //    window.location = "/timeline/search?msg=" + encodeURIComponent(search);
         }
     });
-    inputbtn.addEventListener("click", function (event) {
-        var search = document.getElementById("search").value;
-            window.location = "/timeline/search?msg=" + encodeURIComponent(search);
+   // inputbtn.addEventListener("click", function (event) {
+     //   var search = document.getElementById("search").value;
+       //     window.location = "/timeline/search?msg=" + encodeURIComponent(search);
     });
-</script>
+</script> --}}

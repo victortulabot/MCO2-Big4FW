@@ -84,7 +84,7 @@ app.use((req, res, next) => {
 
 
 // loginController
-app.get('/favicon.ico', loginController.getFavicon);
+// app.get('/favicon.ico', loginController.getFavicon);
 app.get('/', loginController.getLogIn);
 app.post('/', loginController.postLogIn);
 
