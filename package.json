@@ -7,9 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "engines": {
-    "node": "0.10.41"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/victortulabot/MCO2-Big4FW.git"
