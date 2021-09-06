@@ -377,7 +377,7 @@ const postHelperController = {
         console.log(commentId)
         console.log(comment)
                             
-            db.updateOne(Comment, {_id: commentId}, {comment: comment}, function(result){ 
+            db.updateOne(Comment, {_id: commentId}, {comment: comment, c_edited: true}, function(result){ 
                 if(result){
                     res.redirect('/post/'+postId); 
                 }

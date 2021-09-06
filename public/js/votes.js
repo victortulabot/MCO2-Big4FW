@@ -315,40 +315,6 @@ $("#sendButton").click(function(){
 
 })
 
-$(".reply_comment").click(function(){
-    var id = $(this).attr('id')
-    var splitted = id.split("/")
-    var commentID = splitted[1];
-    var PostUserID = splitted[2];
-    var PostID = splitted[3];
-
-    var replyBar = document.getElementById("replyBar/"+splitted[1]).value
-
-
-    // var replyBar = $('#replyBar').val();
-    // var PostID = $('#postid').text();
-    // var PostUserID = $('#postuser').text();
-    // var commentID = $('#commentid').text();
-    
-    if(replyBar != ''){
-        //$('#replyBar').val('');
-        document.getElementById("replyBar/"+splitted[1]).value = ''
-        
-        $.get('/replyComment',{
-            replyBar:replyBar,
-            PostID: PostID,
-            CommentID: commentID,
-            PostUserID: PostUserID
-        }, function(data, status){
-            var r = document.getElementById("displayReply/" + commentID)
-            r.insertAdjacentHTML('beforeend', data)
-        })
-    }else{
-        // $('#error').text('');
-    }
-
-})
-
 $(document).on("click", ".reply_comment", function(){
     var id = $(this).attr('id')
     var splitted = id.split("/")
@@ -403,6 +369,40 @@ $(document).on("click", ".reply_comment", function(){
 //             // var cc = $('#commentcount').text();
 //             // var count= parseInt(cc) + 1;
 //             // $('#commentcount').text(count);
+//         })
+//     }else{
+//         // $('#error').text('');
+//     }
+
+// })
+
+// $(".reply_comment").click(function(){
+//     var id = $(this).attr('id')
+//     var splitted = id.split("/")
+//     var commentID = splitted[1];
+//     var PostUserID = splitted[2];
+//     var PostID = splitted[3];
+
+//     var replyBar = document.getElementById("replyBar/"+splitted[1]).value
+
+
+//     // var replyBar = $('#replyBar').val();
+//     // var PostID = $('#postid').text();
+//     // var PostUserID = $('#postuser').text();
+//     // var commentID = $('#commentid').text();
+    
+//     if(replyBar != ''){
+//         //$('#replyBar').val('');
+//         document.getElementById("replyBar/"+splitted[1]).value = ''
+        
+//         $.get('/replyComment',{
+//             replyBar:replyBar,
+//             PostID: PostID,
+//             CommentID: commentID,
+//             PostUserID: PostUserID
+//         }, function(data, status){
+//             var r = document.getElementById("displayReply/" + commentID)
+//             r.insertAdjacentHTML('beforeend', data)
 //         })
 //     }else{
 //         // $('#error').text('');
