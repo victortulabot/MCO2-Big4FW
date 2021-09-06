@@ -12,7 +12,7 @@ const realTimeController = {
         })
     },
 
-    getPUCS: function(req, res) {
+    getPD: function(req, res) {
         var getPost = helper.getAllPosts();
         getPost.exec(function(err, post){
             res.send(post)

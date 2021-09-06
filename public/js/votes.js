@@ -96,41 +96,31 @@ function getOCS() {
     var ptsString = " pts";
     $.get('/getOwnCS', function(ownCreditScore, status){
         var updatedCreditScore = ownCreditScore.concat(ptsString);
-        // var cc = $('#commentcount').text();
-        // var count= parseInt(cc) + 1;
         $('#creditScore').text(updatedCreditScore);
     })
-
-    $.get('/getpostUserCS', function(postUserCreditScore, status){
-        postUserCreditScore.forEach(perPost => {
-            var userCreditScore = perPost.user.creditScore.toString();
-            var updatedCreditScore = "(" + userCreditScore + " pts)";
-            // var updatedCreditScore = "test" + userCreditScore;
-            // var cc = $('#commentcount').text();
-            // var count= parseInt(cc) + 1;
-            $('#usercreditScore'+perPost._id).text(updatedCreditScore);
-        });
-    })
-
-    // document.getElementById("creditScore").innerHTML = updatedCreditScore;
 }
 
-var postUserCSVar = setInterval(getPUCS, 500);
+var postUserCSVar = setInterval(getPD, 500);
 
-function getPUCS() {
-    var ptsString = " pts";
-    $.get('/getpostUserCS', function(data, status){
-        data.forEach(element => {
-            var userCreditScore = element.user.creditScore;
-            var updatedCreditScore = userCreditScore.concat(ptsString);
-            // var updatedCreditScore = "test" + userCreditScore;
-            // var cc = $('#commentcount').text();
-            // var count= parseInt(cc) + 1;
-            $('#usercreditScore'+element._id).text(updatedCreditScore);
+function getPD() {
+    $.get('/getpostDetails', function(postDetails, status){
+        postDetails.forEach(perPost => {
+            // post's user credit score
+            var userCreditScore = perPost.user.creditScore.toString();
+            var updatedCreditScore = "(" + userCreditScore + " pts)";
+            $('#usercreditScore'+perPost._id).text(updatedCreditScore);
+
+            // post's upvote count
+            var postUpvotesCount = perPost.upvote.toString();
+            var updatedPostUpvoteCount = postUpvotesCount;
+            $('#upvotecount_'+perPost._id).text(updatedPostUpvoteCount);
+
+            // post's downvote count
+            var postDownvotesCount = perPost.downvote.toString();
+            var updatedPostDownvoteCount = postDownvotesCount;
+            $('#downvotecount_'+perPost._id).text(updatedPostDownvoteCount);
         });
     })
-
-    // document.getElementById("usercreditScore").innerHTML = updatedCreditScore;
 }
 
   // $('img').click(function(){
@@ -165,31 +155,31 @@ function getPUCS() {
                 $(this).next().attr("src","/img/downvote.png")
                 var dv = $('#downvotecount_'+post_id).text();
                 var downvote = parseInt(dv) - 1;
-                $('#downvotecount_'+post_id).text(downvote);
+                // $('#downvotecount_'+post_id).text(downvote);
             }
             else if($(this).next().attr("src") == '/img/downvoted.png'){
                 $(this).next().attr("src","/img/downvote.png")
                 var dv = $('#downvotecount_'+post_id).text();
                 var downvote = parseInt(dv) - 1;
-                $('#downvotecount_'+post_id).text(downvote);
+                // $('#downvotecount_'+post_id).text(downvote);
             }else if($(this).next().attr("src") == 'https://big-four-fw.herokuapp.com/img/downvoted.png'){
                 $(this).next().attr("src","/img/downvote.png")
                 var dv = $('#downvotecount_'+post_id).text();
                 var downvote = parseInt(dv) - 1;
-                $('#downvotecount_'+post_id).text(downvote);
+                // $('#downvotecount_'+post_id).text(downvote);
             }
 
             $.get('/post/upvote/'+post_id, {post_id: post_id, puid: puid})
             var uv = $('#upvotecount_'+post_id).text();
             var upvote = parseInt(uv) + 1;
-            $('#upvotecount_'+post_id).text(upvote);
+            // $('#upvotecount_'+post_id).text(upvote);
         }
         else{
             this.src = "/img/upvote.png";
             $.get('/post/unupvote/'+post_id, {post_id: post_id, puid: puid})
             var uv = $('#upvotecount_'+post_id).text();
             var upvote = parseInt(uv) - 1;
-            $('#upvotecount_'+post_id).text(upvote);
+            // $('#upvotecount_'+post_id).text(upvote);
         }
     } 
     
@@ -207,25 +197,25 @@ $(".downvote").click(function() {
                 $(this).prev().attr("src","/img/upvote.png")
                 var uv = $('#upvotecount_'+post_id).text();
                 var upvote = parseInt(uv) - 1;
-                $('#upvotecount_'+post_id).text(upvote);
+                // $('#upvotecount_'+post_id).text(upvote);
             }
             else if($(this).prev().attr("src") == '/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
                 var uv = $('#upvotecount_'+post_id).text();
                 var upvote = parseInt(uv) - 1;
-                $('#upvotecount_'+post_id).text(upvote);
+                // $('#upvotecount_'+post_id).text(upvote);
             }else if($(this).prev().attr("src") == 'https://big-four-fw.herokuapp.com/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
                 var uv = $('#upvotecount_'+post_id).text();
                 var upvote = parseInt(uv) - 1;
-                $('#upvotecount_'+post_id).text(upvote);
+                // $('#upvotecount_'+post_id).text(upvote);
 
             }
 
             $.get('/post/downvote/'+post_id, {post_id: post_id, puid: puid})
             var dv = $('#downvotecount_'+post_id).text();
             var downvote = parseInt(dv) + 1;
-            $('#downvotecount_'+post_id).text(downvote);
+            // $('#downvotecount_'+post_id).text(downvote);
            
         }
         else{
@@ -233,7 +223,7 @@ $(".downvote").click(function() {
             $.get('/post/undownvote/'+post_id, {post_id: post_id, puid: puid})
             var dv = $('#downvotecount_'+post_id).text();
             var downvote = parseInt(dv) - 1;
-            $('#downvotecount_'+post_id).text(downvote);
+            // $('#downvotecount_'+post_id).text(downvote);
         }
        
     } 

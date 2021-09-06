@@ -167,7 +167,7 @@ app.get('/comment/delete/:commentId/:id', postHelperController.deleteComment);
 
 // realTimeController
 app.get('/getOwnCS', realTimeController.getOwnCS);
-app.get('/getpostUserCS', realTimeController.getPUCS);
+app.get('/getpostDetails', realTimeController.getPD);
 
 //logout
 app.get('/logout', function (req, res) {
