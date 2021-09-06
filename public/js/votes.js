@@ -94,14 +94,43 @@ var ownCSVar = setInterval(getOCS, 500);
 
 function getOCS() {
     var ptsString = " pts";
-    $.get('/getOwnCS', function(data, status){
-        var updatedCreditScore = data.concat(ptsString);
+    $.get('/getOwnCS', function(ownCreditScore, status){
+        var updatedCreditScore = ownCreditScore.concat(ptsString);
         // var cc = $('#commentcount').text();
         // var count= parseInt(cc) + 1;
         $('#creditScore').text(updatedCreditScore);
     })
 
-    document.getElementById("creditScore").innerHTML = updatedCreditScore;
+    $.get('/getpostUserCS', function(postUserCreditScore, status){
+        postUserCreditScore.forEach(perPost => {
+            var userCreditScore = perPost.user.creditScore.toString();
+            var updatedCreditScore = "(" + userCreditScore + " pts)";
+            // var updatedCreditScore = "test" + userCreditScore;
+            // var cc = $('#commentcount').text();
+            // var count= parseInt(cc) + 1;
+            $('#usercreditScore'+perPost._id).text(updatedCreditScore);
+        });
+    })
+
+    // document.getElementById("creditScore").innerHTML = updatedCreditScore;
+}
+
+var postUserCSVar = setInterval(getPUCS, 500);
+
+function getPUCS() {
+    var ptsString = " pts";
+    $.get('/getpostUserCS', function(data, status){
+        data.forEach(element => {
+            var userCreditScore = element.user.creditScore;
+            var updatedCreditScore = userCreditScore.concat(ptsString);
+            // var updatedCreditScore = "test" + userCreditScore;
+            // var cc = $('#commentcount').text();
+            // var count= parseInt(cc) + 1;
+            $('#usercreditScore'+element._id).text(updatedCreditScore);
+        });
+    })
+
+    // document.getElementById("usercreditScore").innerHTML = updatedCreditScore;
 }
 
   // $('img').click(function(){
