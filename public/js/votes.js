@@ -92,6 +92,77 @@ $(document).ready(function () {
   //     $(this).next().attr("src", "/img/downvote.png")
   // });
 
+ 
+  //setInterval
+    // updateCounter();
+    
+    // function updateCounter(){
+    //   var n = $("#counter").text();
+    //   var count = parseInt(n) + 1
+    //   $("#counter").text(count)
+    // }
+    // setInterval(updateCounter, 2000);
+
+    // $(document).ready(function () {
+  
+        // $('.userbuttonscontainerr').each(function(i, obj) {
+        //     var id = $(this).find("#upvotecount_postid").attr("id")
+        //     var p_id = id.split('_')[1]
+        //     var count = $(this).find("#upvotecount_postid").text()
+        //     console.log(count)
+        //     console.log(p_id)
+        //     //$(obj).html('count '+ +' by each loop');
+        // });
+    //    });
+
+//     <!DOCTYPE html>
+// <html>
+// <head>
+//   <meta charset="utf-8">
+//   <meta name="viewport" content="width=device-width">
+//   <title>JS Bin</title>
+//   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+//     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+//     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+// </head>
+// <body>
+//   <h1>Counter</h1>
+//   <ul class="timeline">
+//   <div class="yes">
+//     <div class="userbuttonscontainerr">
+//         <p class ="upvotecountt" title="Vote Count"><span id="upvotecount_postid">1</span> upvotes, <span id="downvotecount_postid">1</span> downvotes, <span>9 comments</span></p>
+//     </div>
+//   </div>
+//   </ul>
+//   <ul class="timeline">
+//   <div class="yes">
+//     <div class="userbuttonscontainerr">
+//         <p class ="upvotecountt" title="Vote Count"><span id="upvotecount_postid">1</span> upvotes, <span id="downvotecount_postid">1</span> downvotes, <span>9 comments</span></p>
+//     </div>
+//   </div>
+//   </ul>
+  
+//   <ul class="timeline">
+//   <div class="yes">
+//     <div class="userbuttonscontainerr">
+//         <p class ="upvotecountt" title="Vote Count"><span id="upvotecount_postid">1</span> upvotes, <span id="downvotecount_postid">1</span> downvotes, <span>9 comments</span></p>
+//     </div>
+//   </div>
+//   </ul>
+  
+//   <ul class="timeline">
+//   <div class="yes">
+//     <div class="userbuttonscontainerr">
+//         <p class ="upvotecountt" title="Vote Count"><span id="upvotecount_postid">1</span> upvotes, <span id="downvotecount_postid">1</span> downvotes, <span>9 comments</span></p>
+//     </div>
+//   </div>
+//   </ul>
+// </body>
+// </html>
+         
+         
+    //    })
+       
   $(".upvote").click(function() {
     var post_id = $(this).parent().next().find('p:nth-child(1)').text();
     var puid = $(this).parent().next().find('p:nth-child(2)').text();
@@ -178,6 +249,16 @@ $(".downvote").click(function() {
     } 
 });
 
+// {{#checkSaved this._id saved}}
+// <a href="/post/unsave/{{this._id}}" id="unsave/{{this._id}}" class="unsave">Unsave Post</a>
+// <a id="unsave/{{this._id}}" class="unsave" style="cursor: pointer;">Unsave Post</a>
+// <a id="save/{{this._id}}" class="save" style="display: none; cursor: pointer;">Save Post</a>
+// {{else}}
+// <a href="/post/save/{{this._id}}" id="save/{{this._id}}" class="save">Save Post</a>
+// <a id="unsave/{{this._id}}" class="unsave" style="display: none; cursor: pointer;">Unsave Post</a>
+// <a id="save/{{this._id}}" class="save" style="cursor: pointer;">Save Post</a>
+// {{/checkSaved}} 
+
 $(".save").click(function() {
     var post_id = $(this).attr('id')
     // console.log(post_id)
@@ -234,15 +315,24 @@ $("#sendButton").click(function(){
 
 })
 
-// WIP
-$("#replyCommentBtn").click(function(){
-    var replyBar = $('#replyBar').val();
-    var PostID = $('#postid').text();
-    var PostUserID = $('#postuser').text();
-    var commentID = $('#commentid').text();
+$(".reply_comment").click(function(){
+    var id = $(this).attr('id')
+    var splitted = id.split("/")
+    var commentID = splitted[1];
+    var PostUserID = splitted[2];
+    var PostID = splitted[3];
+
+    var replyBar = document.getElementById("replyBar/"+splitted[1]).value
+
+
+    // var replyBar = $('#replyBar').val();
+    // var PostID = $('#postid').text();
+    // var PostUserID = $('#postuser').text();
+    // var commentID = $('#commentid').text();
     
     if(replyBar != ''){
-        $('#replyBar').val('');
+        //$('#replyBar').val('');
+        document.getElementById("replyBar/"+splitted[1]).value = ''
         
         $.get('/replyComment',{
             replyBar:replyBar,
@@ -250,16 +340,74 @@ $("#replyCommentBtn").click(function(){
             CommentID: commentID,
             PostUserID: PostUserID
         }, function(data, status){
-            $('#displayReply').append(data);
-            // var cc = $('#commentcount').text();
-            // var count= parseInt(cc) + 1;
-            // $('#commentcount').text(count);
+            var r = document.getElementById("displayReply/" + commentID)
+            r.insertAdjacentHTML('beforeend', data)
         })
     }else{
         // $('#error').text('');
     }
 
 })
+
+$(document).on("click", ".reply_comment", function(){
+    var id = $(this).attr('id')
+    var splitted = id.split("/")
+    var commentID = splitted[1];
+    var PostUserID = splitted[2];
+    var PostID = splitted[3];
+
+    var replyBar = document.getElementById("replyBar/"+splitted[1]).value
+
+
+    // var replyBar = $('#replyBar').val();
+    // var PostID = $('#postid').text();
+    // var PostUserID = $('#postuser').text();
+    // var commentID = $('#commentid').text();
+    
+    if(replyBar != ''){
+        //$('#replyBar').val('');
+        document.getElementById("replyBar/"+splitted[1]).value = ''
+        
+        $.get('/replyComment',{
+            replyBar:replyBar,
+            PostID: PostID,
+            CommentID: commentID,
+            PostUserID: PostUserID
+        }, function(data, status){
+            var r = document.getElementById("displayReply/" + commentID)
+            r.insertAdjacentHTML('beforeend', data)
+        })
+    }else{
+        // $('#error').text('');
+    }
+
+})
+
 // WIP
+// $("#replyCommentBtn").click(function(){
+//     var replyBar = $('#replyBar').val();
+//     var PostID = $('#postid').text();
+//     var PostUserID = $('#postuser').text();
+//     var commentID = $('#commentid').text();
+    
+//     if(replyBar != ''){
+//         $('#replyBar').val('');
+        
+//         $.get('/replyComment',{
+//             replyBar:replyBar,
+//             PostID: PostID,
+//             CommentID: commentID,
+//             PostUserID: PostUserID
+//         }, function(data, status){
+//             $('#displayReply').append(data);
+//             // var cc = $('#commentcount').text();
+//             // var count= parseInt(cc) + 1;
+//             // $('#commentcount').text(count);
+//         })
+//     }else{
+//         // $('#error').text('');
+//     }
+
+// })
 
 })

@@ -524,7 +524,7 @@ const timelineController = {
                             // console.log("hello");
                             // console.log(post);
                             db.findOne(Profile, {_id: req.session.user}, '', function(active_user){
-                                var getComments = helper.getComments(postId);
+                                var getComments = helper.getAllComments(postId);
                                 getComments.exec(function(err, comments){
                                     var getReplies = helper.getReplies(postId);
                                     getReplies.exec(function(err, replies){
