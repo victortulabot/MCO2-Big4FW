@@ -22,7 +22,7 @@ const timelineController = {
                     }
 
                     post.sort(function (a, b) {
-                        return b.user.creditScore-a.user.creditScore;
+                        return b.upvote-b.downvote - a.upvote-a.downvote
                     })
 
                     res.render('timeline', {
