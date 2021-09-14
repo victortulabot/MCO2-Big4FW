@@ -90,58 +90,6 @@ $(document).ready(function () {
 
 // hanggang dito
 
-var ownCSVar = setInterval(getOCS, 500);
-
-function getOCS() {
-    var ptsString = " pts";
-    $.get('/getSession', function(curSession, status){
-        if (curSession == null){
-            clearInterval(ownCSVar);
-            clearInterval(postUserCSVar);
-        }
-        else{
-            $.get('/getOwnCS', function(ownCreditScore, status){
-                var updatedCreditScore = ownCreditScore.concat(ptsString);
-                $('#creditScore').text(updatedCreditScore);
-            })
-        }
-    })
-}
-
-var postUserCSVar = setInterval(getPD, 500);
-
-function getPD() {
-    $.get('/getpostDetails', function(postDetails, status){
-        postDetails.forEach(perPost => {
-            // post's user credit score
-            var userCreditScore = perPost.user.creditScore.toString();
-            var updatedCreditScore = "(" + userCreditScore + " pts)";
-            $('#usercreditScore'+perPost._id).text(updatedCreditScore);
-
-            // post's upvote count
-            var postUpvotesCount = perPost.upvote.toString();
-            var updatedPostUpvoteCount = postUpvotesCount;
-            $('#upvotecount_'+perPost._id).text(updatedPostUpvoteCount);
-
-            // post's downvote count
-            var postDownvotesCount = perPost.downvote.toString();
-            var updatedPostDownvoteCount = postDownvotesCount;
-            $('#downvotecount_'+perPost._id).text(updatedPostDownvoteCount);
-        });
-    })
-}
-
-// stop interval
-function stopRealTime() {
-    clearInterval(ownCSVar);
-    clearInterval(postUserCSVar);
-}
-
-function actOnPost(event) {
-    var postId = event.target.dataset.postId;
-    var action = event.target.textContent.trim();
-    $.post('/posts/' + postId + '/act', { action: action});
-}
 
   // $('img').click(function(){
   //     var type = this.id.split(',')[0];
@@ -234,72 +182,72 @@ function actOnPost(event) {
          
     //    })
        
-  $(".upvote").click(function() {
-    // var ownCSVar = setInterval(getOCS, 500);
-    // var postUserCSVar = setInterval(getPD, 500);
+//   $(".upvote").click(function() {
+//     // var ownCSVar = setInterval(getOCS, 500);
+//     // var postUserCSVar = setInterval(getPD, 500);
 
-    var post_id = $(this).parent().next().find('p:nth-child(1)').text();
-    var puid = $(this).parent().next().find('p:nth-child(2)').text();
+//     var post_id = $(this).parent().next().find('p:nth-child(1)').text();
+//     var puid = $(this).parent().next().find('p:nth-child(2)').text();
 
-    if ($(this).attr("class") == "upvote"){
-        if((this.src == "http://localhost:9090/img/upvote.png") || (this.src == "/img/upvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/upvote.png") || (this.src == "https://mco2-big4fw.herokuapp.com/img/upvote.png")){
-            this.src = "/img/upvoted.png";
-            var upvote = 1;
-            var downvote = 0;
-            var upvoteCredit = 1;
+//     if ($(this).attr("class") == "upvote"){
+//         if((this.src == "http://localhost:9090/img/upvote.png") || (this.src == "/img/upvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/upvote.png") || (this.src == "https://mco2-big4fw.herokuapp.com/img/upvote.png")){
+//             this.src = "/img/upvoted.png";
+//             var upvote = 1;
+//             var downvote = 0;
+//             var upvoteCredit = 1;
     
-            if($(this).next().attr("src") == 'http://localhost:9090/img/downvoted.png'){
-                $(this).next().attr("src","/img/downvote.png")
-                // var dv = $('#downvotecount_'+post_id).text();
-                // var downvote = parseInt(dv) - 1;
-                downvote = 1;
-                upvoteCredit += 1;
-                // $('#downvotecount_'+post_id).text(downvote);
-            }
-            else if($(this).next().attr("src") == '/img/downvoted.png'){
-                $(this).next().attr("src","/img/downvote.png")
-                // var dv = $('#downvotecount_'+post_id).text();
-                // var downvote = parseInt(dv) - 1;
-                downvote = 1;
-                upvoteCredit += 1;
-                // $('#downvotecount_'+post_id).text(downvote);
-            }else if($(this).next().attr("src") == 'https://big-four-fw.herokuapp.com/img/downvoted.png'){
-                $(this).next().attr("src","/img/downvote.png")
-                // var dv = $('#downvotecount_'+post_id).text();
-                // var downvote = parseInt(dv) - 1;
-                downvote = 1;
-                upvoteCredit += 1;
-                // $('#downvotecount_'+post_id).text(downvote);
-            }else if($(this).next().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/downvoted.png'){
-                $(this).next().attr("src","/img/downvote.png")
-                // var dv = $('#downvotecount_'+post_id).text();
-                // var downvote = parseInt(dv) - 1;
-                downvote = 1;
-                upvoteCredit += 1;
-                // $('#downvotecount_'+post_id).text(downvote);
-            }
+//             if($(this).next().attr("src") == 'http://localhost:9090/img/downvoted.png'){
+//                 $(this).next().attr("src","/img/downvote.png")
+//                 // var dv = $('#downvotecount_'+post_id).text();
+//                 // var downvote = parseInt(dv) - 1;
+//                 downvote = 1;
+//                 upvoteCredit += 1;
+//                 // $('#downvotecount_'+post_id).text(downvote);
+//             }
+//             else if($(this).next().attr("src") == '/img/downvoted.png'){
+//                 $(this).next().attr("src","/img/downvote.png")
+//                 // var dv = $('#downvotecount_'+post_id).text();
+//                 // var downvote = parseInt(dv) - 1;
+//                 downvote = 1;
+//                 upvoteCredit += 1;
+//                 // $('#downvotecount_'+post_id).text(downvote);
+//             }else if($(this).next().attr("src") == 'https://big-four-fw.herokuapp.com/img/downvoted.png'){
+//                 $(this).next().attr("src","/img/downvote.png")
+//                 // var dv = $('#downvotecount_'+post_id).text();
+//                 // var downvote = parseInt(dv) - 1;
+//                 downvote = 1;
+//                 upvoteCredit += 1;
+//                 // $('#downvotecount_'+post_id).text(downvote);
+//             }else if($(this).next().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/downvoted.png'){
+//                 $(this).next().attr("src","/img/downvote.png")
+//                 // var dv = $('#downvotecount_'+post_id).text();
+//                 // var downvote = parseInt(dv) - 1;
+//                 downvote = 1;
+//                 upvoteCredit += 1;
+//                 // $('#downvotecount_'+post_id).text(downvote);
+//             }
 
-            $.get('/post/upvote/'+post_id, {post_id: post_id, puid: puid, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit})
-            // var uv = $('#upvotecount_'+post_id).text();
-            // var upvote = parseInt(uv) + 2;
-            // $('#upvotecount_'+post_id).text(upvote);
-        }
-        else{
-            this.src = "/img/upvote.png";
-            var upvote = 1;
-            var downvote = 0;
-            var upvoteCredit = 1;
-            $.get('/post/unupvote/'+post_id, {post_id: post_id, puid: puid, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit})
-            // var uv = $('#upvotecount_'+post_id).text();
-            // var upvote = parseInt(uv) - 2;
-            // $('#upvotecount_'+post_id).text(upvote);
-        }
-    } 
+//             $.get('/post/upvote/'+post_id, {post_id: post_id, puid: puid, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit})
+//             // var uv = $('#upvotecount_'+post_id).text();
+//             // var upvote = parseInt(uv) + 2;
+//             // $('#upvotecount_'+post_id).text(upvote);
+//         }
+//         else{
+//             this.src = "/img/upvote.png";
+//             var upvote = 1;
+//             var downvote = 0;
+//             var upvoteCredit = 1;
+//             $.get('/post/unupvote/'+post_id, {post_id: post_id, puid: puid, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit})
+//             // var uv = $('#upvotecount_'+post_id).text();
+//             // var upvote = parseInt(uv) - 2;
+//             // $('#upvotecount_'+post_id).text(upvote);
+//         }
+//     } 
 
     
-    // setTimeout(stopRealTime,10000);
+//     // setTimeout(stopRealTime,10000);
     
-});
+// });
 
 $(".downvote").click(function() {
     // var ownCSVar = setInterval(getOCS, 500);
