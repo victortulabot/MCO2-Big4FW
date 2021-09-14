@@ -90,7 +90,7 @@ $(document).ready(function () {
 
 // hanggang dito
 
-var ownCSVar = setInterval(getOCS, 1000);
+var ownCSVar = setInterval(getOCS, 500);
 
 function getOCS() {
     var ptsString = " pts";
@@ -108,7 +108,7 @@ function getOCS() {
     })
 }
 
-var postUserCSVar = setInterval(getPD, 1000);
+var postUserCSVar = setInterval(getPD, 500);
 
 function getPD() {
     $.get('/getpostDetails', function(postDetails, status){
@@ -135,6 +135,12 @@ function getPD() {
 function stopRealTime() {
     clearInterval(ownCSVar);
     clearInterval(postUserCSVar);
+}
+
+function actOnPost(event) {
+    var postId = event.target.dataset.postId;
+    var action = event.target.textContent.trim();
+    $.post('/posts/' + postId + '/act', { action: action});
 }
 
   // $('img').click(function(){
@@ -229,6 +235,9 @@ function stopRealTime() {
     //    })
        
   $(".upvote").click(function() {
+    // var ownCSVar = setInterval(getOCS, 500);
+    // var postUserCSVar = setInterval(getPD, 500);
+
     var post_id = $(this).parent().next().find('p:nth-child(1)').text();
     var puid = $(this).parent().next().find('p:nth-child(2)').text();
 
@@ -286,10 +295,16 @@ function stopRealTime() {
             // $('#upvotecount_'+post_id).text(upvote);
         }
     } 
+
+    
+    // setTimeout(stopRealTime,10000);
     
 });
 
 $(".downvote").click(function() {
+    // var ownCSVar = setInterval(getOCS, 500);
+    // var postUserCSVar = setInterval(getPD, 500);
+
     var post_id = $(this).parent().next().find('p:nth-child(1)').text();
     var puid = $(this).parent().next().find('p:nth-child(2)').text();
 
@@ -349,6 +364,7 @@ $(".downvote").click(function() {
         }
        
     } 
+    // setTimeout(stopRealTime, 10000);
 });
 
 // {{#checkSaved this._id saved}}
