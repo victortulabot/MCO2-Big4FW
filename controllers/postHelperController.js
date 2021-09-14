@@ -9,11 +9,10 @@ const helper = require('../helpers/helper.js');
 
 const postHelperController = {
     
-    PostUpdate: function(req, res) {
+    upvotePost: function(req, res) {
         var action = helper.sanitize(req.body.action);
         var post_id = helper.sanitize(req.body.post_id);
         var puid = helper.sanitize(req.body.puid);
-        var activeid = helper.sanitize(req.body.activeid);
         
         let Pusher = require('pusher');
 
@@ -24,60 +23,56 @@ const postHelperController = {
             cluster: 'ap1'
         });
 
-        let payload = { action: action, post_id: post_id, puid: puid, activeid: activeid};
+        let payload = { action: action, post_id: post_id};
         pusher.trigger('post-events', 'postAction', payload);
-    },
 
-    upvotePost: function(req, res) {
-        var post_id = helper.sanitize(req.query.post_id);
-
-        if(req.query.puid == req.session.user){
-            db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
-                if(post){
-                    //console.log(post);
-                    db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
-                        if(user){
-                            //console.log(user);
-                            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.query.upvoteCount}}, function(post){
-                                if(post){
-                                    //console.log(post);
-                                    db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
-                                        if(user){
+        // if(puid == req.session.user){
+        //     db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
+        //         if(post){
+        //             //console.log(post);
+        //             db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
+        //                 if(user){
+        //                     //console.log(user);
+        //                     db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.query.upvoteCount}}, function(post){
+        //                         if(post){
+        //                             //console.log(post);
+        //                             db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
+        //                                 if(user){
                                             
-                                        }
-                                    })
-                                }
-                            })      
-                        }
-                    })
-                }
-            }) 
-        } else{
-            db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
-                if(post){
-                    //console.log(post);
-                    db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
-                        if(user){
-                            //console.log(user);
-                            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.query.upvoteCount}}, function(post){
-                                if(post){
-                                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: req.query.upvoteCredit}}, function(credit){
-                                        if(credit){
+        //                                 }
+        //                             })
+        //                         }
+        //                     })      
+        //                 }
+        //             })
+        //         }
+        //     }) 
+        // } else{
+        //     db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
+        //         if(post){
+        //             //console.log(post);
+        //             db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
+        //                 if(user){
+        //                     //console.log(user);
+        //                     db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.query.upvoteCount}}, function(post){
+        //                         if(post){
+        //                             db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: req.query.upvoteCredit}}, function(credit){
+        //                                 if(credit){
 
-                                            db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
-                                                if(user){
-                                                    //console.log(user);
-                                                }
-                                            })
-                                        }
-                                    })
-                                }
-                            })      
-                        }
-                    })
-                }
-            }) 
-        }
+        //                                     db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
+        //                                         if(user){
+        //                                             //console.log(user);
+        //                                         }
+        //                                     })
+        //                                 }
+        //                             })
+        //                         }
+        //                     })      
+        //                 }
+        //             })
+        //         }
+        //     }) 
+        // }
     },
     
     unupvotePost: function(req, res) {
@@ -164,24 +159,6 @@ const postHelperController = {
 
        
        
-    },
-
-    undownvotePostUpdate: function(req, res) {
-        var action = helper.sanitize(req.body.action);
-        var post_id = helper.sanitize(req.body.post_id);
-        var puid = helper.sanitize(req.body.puid);
-        
-        let Pusher = require('pusher');
-
-        let pusher = new Pusher({
-            appId: process.env.PUSHER_APP_ID,
-            key: process.env.PUSHER_APP_KEY,
-            secret: process.env.PUSHER_APP_SECRET,
-            cluster: 'ap1'
-        });
-
-        let payload = { action: action, post_id: post_id};
-        pusher.trigger('post-events', 'postAction', payload);
     },
 
     undownvotePost: function(req, res) {

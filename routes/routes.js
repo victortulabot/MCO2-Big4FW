@@ -148,12 +148,12 @@ app.get('/userid/:userId', profileController.getIndivProfile);
 // postHelperController
 // app.get('/post/save/:postId', postHelperController.savePost);
 // app.get('/post/unsave/:postId', postHelperController.unsavePost);
-app.post('/post/postupdate', postHelperController.PostUpdate);
+app.post('/post/upvote', postHelperController.upvotePost);
 
-app.get('/post/upvote/:postId', postHelperController.upvotePost);
-app.get('/post/downvote/:postId', postHelperController.downvotePost);
-app.get('/post/unupvote/:postId', postHelperController.unupvotePost);
-app.get('/post/undownvote/:postId', postHelperController.undownvotePost);
+// app.get('/post/upvote/:postId', postHelperController.upvotePost);
+// app.get('/post/downvote/:postId', postHelperController.downvotePost);
+// app.get('/post/unupvote/:postId', postHelperController.unupvotePost);
+// app.get('/post/undownvote/:postId', postHelperController.undownvotePost);
 
 app.get('/createComment', postHelperController.createComment);
 app.post('/editPost',
