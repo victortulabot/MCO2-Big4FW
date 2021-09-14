@@ -6,7 +6,7 @@
           <div class="comment-body">
             <div class="author">
               {{!-- <a class="a-link" href="/userid/{{user._id}}">{{user.username}}</a> --}}
-              <p>{{user.username}} <span class="userCreditScoree" style="margin-left: 1px;">({{user.creditScore}} pts)</span></p>
+              <p>{{user.username}} <span class="userCreditScoree" style="margin-left: 1px;">(<span id="usercreditScore{{postid}}">{{user.creditScore}}</span> pts)</span></p>
                 {{#if c_edited}}
                 <span style="text-align: left; font-style:italic; font-size:x-small; margin-left: 3px; float:right">( <i class="fa fa-pencil" aria-hidden="true"></i> Edited)</span>
                 {{/if}}

@@ -57,7 +57,7 @@
                     {{!-- <a class="a-link" href="/userid/{{user._id}}">By: {{user.username}}</a> --}}
                     <p>By: {{user.username}}</p>
                 </div>
-                <div class="userCreditScoree" id="usercreditScore{{_id}}">({{user.creditScore}} pts)</div>    
+                <div class="userCreditScoree" >(<span id="usercreditScore{{_id}}">{{user.creditScore}}</span> pts)</div>    
             </span>
             <div class="timeline-body" style="margin-top: 12px;">
                 <p>{{body}}</p>
@@ -83,16 +83,16 @@
                 <p class ="upvotecountt" title="Vote Count"><span id="upvotecount_{{_id}}">{{upvote}}</span> upvotes, <span id="downvotecount_{{_id}}">{{downvote}}</span> downvotes, <span>{{comment}} comments</span></p>
                     
                 {{#checkUpvote this._id upvoted}}
-                    <img src="/img/upvoted.png" id="upvoted_{{_id}}" title="Upvote" class="upvote" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="">
-                    <img src="/img/downvote.png" id="downvote_{{_id}}" title="Downvote" class="downvote">
+                    <img src="/img/upvoted.png" id="upvote_{{_id}}" title="Upvote" class="upvote" data-activeid="{{activeid}}" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="unupvote(event);">
+                    <img src="/img/downvote.png" id="downvote_{{_id}}" title="Downvote" class="downvote" data-activeid="{{activeid}}" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="updownvote(event);">
                     {{else}}
 
                         {{#checkDownvote this._id downvoted}}
-                            <img src="/img/upvote.png" id="upvote_{{_id}}" title="Upvote" class="upvote" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="upvote(event);">
-                            <img src="/img/downvoted.png" id="downvoted_{{_id}}" title="Downvote" class="downvote">
+                            <img src="/img/upvote.png" id="upvote_{{_id}}" title="Upvote" class="upvote" data-activeid="{{activeid}}" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="downupvote(event);">
+                            <img src="/img/downvoted.png" id="downvote_{{_id}}" title="Downvote" class="downvote" data-activeid="{{activeid}}" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="undownvote(event);">
                             {{else}} 
-                            <img src="/img/upvote.png" id="upvote_{{_id}}" title="Upvote" class="upvote" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="upvote(event);">
-                            <img src="/img/downvote.png" id="downvote_{{_id}}" title="Downvote" class="downvote">
+                            <img src="/img/upvote.png" id="upvote_{{_id}}" title="Upvote" class="upvote" data-activeid="{{activeid}}" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="upvote(event);">
+                            <img src="/img/downvote.png" id="downvote_{{_id}}" title="Downvote" class="downvote" data-activeid="{{activeid}}" data-post-id="{{_id}}" data-puid="{{user._id}}" onclick="downvote(event);">
                         {{/checkDownvote}}
 
                 {{/checkUpvote}}

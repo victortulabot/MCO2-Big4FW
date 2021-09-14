@@ -126,19 +126,49 @@
             var socketId;
 
             var updatePostStats = {
-                upvote: function (postId) {
+                upvote: function (postId, puid, activeid) {
                     document.querySelector('#upvotecount_' + postId).textContent++;
+                    if(activeid != puid){
+                        document.querySelector('#usercreditScore' + postId).textContent++;
+                    }
                 },
-                downvote: function(postId) {
-                    document.querySelector('#likes-count-' + postId).textContent--;
-                }
-            };
-            var toggleButtonText = {
-                Like: function(button) {
-                    button.textContent = "Unlike";
+                unupvote: function (postId, puid, activeid) {
+                    document.querySelector('#upvotecount_' + postId).textContent--;
+                    if(activeid != puid){
+                        document.querySelector('#usercreditScore' + postId).textContent--;
+                    }
                 },
-                Unlike: function(button) {
-                    button.textContent = "Like";
+                downupvote: function(postId, puid, activeid) {
+                    document.querySelector('#upvotecount_' + postId).textContent++;
+                    document.querySelector('#downvotecount_' + postId).textContent--;
+                    if(activeid != puid){
+                        document.querySelector('#usercreditScore' + postId).textContent++;
+                    }
+                    if(activeid != puid){
+                        document.querySelector('#usercreditScore' + postId).textContent++;
+                    }
+                },
+                downvote: function(postId, puid, activeid) {
+                    document.querySelector('#downvotecount_' + postId).textContent++;
+                    if(activeid != puid){
+                        document.querySelector('#usercreditScore' + postId).textContent--;
+                    }
+                },
+                undownvote: function(postId, puid, activeid) {
+                    document.querySelector('#downvotecount_' + postId).textContent--;
+                    if(activeid != puid){
+                        document.querySelector('#usercreditScore' + postId).textContent++;
+                    }
+                },
+                updownvote: function(postId, puid, activeid) {
+                    document.querySelector('#downvotecount_' + postId).textContent++;
+                    document.querySelector('#upvotecount_' + postId).textContent--;
+                    if(activeid != puid){
+                        document.querySelector('#usercreditScore' + postId).textContent--;
+                    }
+                    if(activeid != puid){
+                        document.querySelector('#usercreditScore' + postId).textContent--;
+                    }
                 }
             };
 
@@ -146,15 +176,66 @@
                 console.log("upvote")
                 var post_id = event.target.dataset.postId;
                 var puid = event.target.dataset.puid;
+                var activeid = event.target.dataset.activeid;
                 var action = "upvote"
 
-                axios.post('/post/upvote', { action: action, puid: puid, post_id: post_id});
+                axios.post('/post/postupdate', { action: action, puid: puid, post_id: post_id, activeid: activeid});
                 
+            };
 
-                //toggleButtonText[action](event.target);
-                //updatePostStats[action](postId);
-                //axios.post('/posts/' + postId + '/act',
-                        //{ action: action, socketId: socketId });
+            var unupvote = function (event) {
+                console.log("unupvote")
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var activeid = event.target.dataset.activeid;
+                var action = "unupvote"
+
+                axios.post('/post/postupdate', { action: action, puid: puid, post_id: post_id, activeid: activeid});
+                
+            };
+
+            var downupvote = function (event) {
+                console.log("downupvote")
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var activeid = event.target.dataset.activeid;
+                var action = "downupvote"
+
+                axios.post('/post/postupdate', { action: action, puid: puid, post_id: post_id, activeid: activeid});
+                
+            };
+
+            var downvote = function (event) {
+                console.log("downvote")
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var activeid = event.target.dataset.activeid;
+                var action = "downvote"
+
+                axios.post('/post/postupdate', { action: action, puid: puid, post_id: post_id, activeid: activeid});
+                
+            };
+
+            var undownvote = function (event) {
+                console.log("undownvote")
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var activeid = event.target.dataset.activeid;
+                var action = "undownvote"
+
+                axios.post('/post/postupdate', { action: action, puid: puid, post_id: post_id, activeid: activeid});
+                
+            };
+
+            var updownvote = function (event) {
+                console.log("updownvote")
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var activeid = event.target.dataset.activeid;
+                var action = "updownvote"
+
+                axios.post('/post/postupdate', { action: action, puid: puid, post_id: post_id, activeid: activeid});
+                
             };
 
             var pusher = new Pusher("57a598781b49aeefdb0f", {
@@ -175,7 +256,7 @@
                 console.log("pusher");
                 //console.log(data);
                 var action = data.action;
-                updatePostStats[action](data.post_id);
+                updatePostStats[action](data.post_id, data.puid, data.activeid);
             });
         </script>
 

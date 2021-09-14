@@ -90,6 +90,23 @@ $(document).ready(function () {
 
 // hanggang dito
 
+var ownCSVar = setInterval(getOCS, 1000);
+
+function getOCS(){
+    var ptsString = " pts";
+    $.get('/getSession', function(curSession, status){
+        if(curSession == null){
+            clearInterval(ownCSVar);
+        }
+        else{
+            $.get('/getOwnCS', function(ownCreditScore, status){
+                var updatedCreditScore = ownCreditScore.concat(ptsString);
+                $('#creditScore').text(updatedCreditScore);
+            })
+        }
+    })
+}
+
 
   // $('img').click(function(){
   //     var type = this.id.split(',')[0];
@@ -182,74 +199,82 @@ $(document).ready(function () {
          
     //    })
        
-//   $(".upvote").click(function() {
-//     // var ownCSVar = setInterval(getOCS, 500);
-//     // var postUserCSVar = setInterval(getPD, 500);
+  $(".upvote").click(function() {
+    // var ownCSVar = setInterval(getOCS, 500);
+    // var postUserCSVar = setInterval(getPD, 500);
 
-//     var post_id = $(this).parent().next().find('p:nth-child(1)').text();
-//     var puid = $(this).parent().next().find('p:nth-child(2)').text();
+    var post_id = $(this).parent().next().find('p:nth-child(1)').text();
+    var puid = $(this).parent().next().find('p:nth-child(2)').text();
 
-//     if ($(this).attr("class") == "upvote"){
-//         if((this.src == "http://localhost:9090/img/upvote.png") || (this.src == "/img/upvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/upvote.png") || (this.src == "https://mco2-big4fw.herokuapp.com/img/upvote.png")){
-//             this.src = "/img/upvoted.png";
-//             var upvote = 1;
-//             var downvote = 0;
-//             var upvoteCredit = 1;
+    if ($(this).attr("class") == "upvote"){
+        if((this.src == "http://localhost:9090/img/upvote.png") || (this.src == "/img/upvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/upvote.png") || (this.src == "https://mco2-big4fw.herokuapp.com/img/upvote.png")){
+            this.src = "/img/upvoted.png";
+            document.getElementById('upvote_'+post_id).setAttribute('onclick', 'unupvote(event);');
+            document.getElementById('downvote_'+post_id).setAttribute('onclick', 'updownvote(event);');
+            var upvote = 1;
+            var downvote = 0;
+            var upvoteCredit = 1;
     
-//             if($(this).next().attr("src") == 'http://localhost:9090/img/downvoted.png'){
-//                 $(this).next().attr("src","/img/downvote.png")
-//                 // var dv = $('#downvotecount_'+post_id).text();
-//                 // var downvote = parseInt(dv) - 1;
-//                 downvote = 1;
-//                 upvoteCredit += 1;
-//                 // $('#downvotecount_'+post_id).text(downvote);
-//             }
-//             else if($(this).next().attr("src") == '/img/downvoted.png'){
-//                 $(this).next().attr("src","/img/downvote.png")
-//                 // var dv = $('#downvotecount_'+post_id).text();
-//                 // var downvote = parseInt(dv) - 1;
-//                 downvote = 1;
-//                 upvoteCredit += 1;
-//                 // $('#downvotecount_'+post_id).text(downvote);
-//             }else if($(this).next().attr("src") == 'https://big-four-fw.herokuapp.com/img/downvoted.png'){
-//                 $(this).next().attr("src","/img/downvote.png")
-//                 // var dv = $('#downvotecount_'+post_id).text();
-//                 // var downvote = parseInt(dv) - 1;
-//                 downvote = 1;
-//                 upvoteCredit += 1;
-//                 // $('#downvotecount_'+post_id).text(downvote);
-//             }else if($(this).next().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/downvoted.png'){
-//                 $(this).next().attr("src","/img/downvote.png")
-//                 // var dv = $('#downvotecount_'+post_id).text();
-//                 // var downvote = parseInt(dv) - 1;
-//                 downvote = 1;
-//                 upvoteCredit += 1;
-//                 // $('#downvotecount_'+post_id).text(downvote);
-//             }
+            if($(this).next().attr("src") == 'http://localhost:9090/img/downvoted.png'){
+                $(this).next().attr("src","/img/downvote.png")
+                document.getElementById('downvote_'+post_id).setAttribute('onclick', 'updownvote(event);');
+                // var dv = $('#downvotecount_'+post_id).text();
+                // var downvote = parseInt(dv) - 1;
+                downvote = 1;
+                upvoteCredit += 1;
+                // $('#downvotecount_'+post_id).text(downvote);
+            }
+            else if($(this).next().attr("src") == '/img/downvoted.png'){
+                $(this).next().attr("src","/img/downvote.png")
+                document.getElementById('downvote_'+post_id).setAttribute('onclick', 'updownvote(event);');
+                // var dv = $('#downvotecount_'+post_id).text();
+                // var downvote = parseInt(dv) - 1;
+                downvote = 1;
+                upvoteCredit += 1;
+                // $('#downvotecount_'+post_id).text(downvote);
+            }else if($(this).next().attr("src") == 'https://big-four-fw.herokuapp.com/img/downvoted.png'){
+                $(this).next().attr("src","/img/downvote.png")
+                document.getElementById('downvote_'+post_id).setAttribute('onclick', 'updownvote(event);');
+                // var dv = $('#downvotecount_'+post_id).text();
+                // var downvote = parseInt(dv) - 1;
+                downvote = 1;
+                upvoteCredit += 1;
+                // $('#downvotecount_'+post_id).text(downvote);
+            }else if($(this).next().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/downvoted.png'){
+                $(this).next().attr("src","/img/downvote.png")
+                document.getElementById('downvote_'+post_id).setAttribute('onclick', 'updownvote(event);');
+                // var dv = $('#downvotecount_'+post_id).text();
+                // var downvote = parseInt(dv) - 1;
+                downvote = 1;
+                upvoteCredit += 1;
+                // $('#downvotecount_'+post_id).text(downvote);
+            }
 
-//             $.get('/post/upvote/'+post_id, {post_id: post_id, puid: puid, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit})
-//             // var uv = $('#upvotecount_'+post_id).text();
-//             // var upvote = parseInt(uv) + 2;
-//             // $('#upvotecount_'+post_id).text(upvote);
-//         }
-//         else{
-//             this.src = "/img/upvote.png";
-//             var upvote = 1;
-//             var downvote = 0;
-//             var upvoteCredit = 1;
-//             $.get('/post/unupvote/'+post_id, {post_id: post_id, puid: puid, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit})
-//             // var uv = $('#upvotecount_'+post_id).text();
-//             // var upvote = parseInt(uv) - 2;
-//             // $('#upvotecount_'+post_id).text(upvote);
-//         }
-//     } 
+            $.get('/post/upvote/'+post_id, {post_id: post_id, puid: puid, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit})
+            // var uv = $('#upvotecount_'+post_id).text();
+            // var upvote = parseInt(uv) + 2;
+            // $('#upvotecount_'+post_id).text(upvote);
+        }
+        else{
+            this.src = "/img/upvote.png";
+            document.getElementById('upvote_'+post_id).setAttribute('onclick', 'upvote(event);');
+            document.getElementById('downvote_'+post_id).setAttribute('onclick', 'downvote(event);');
+            var upvote = 1;
+            var downvote = 0;
+            var upvoteCredit = 1;
+            $.get('/post/unupvote/'+post_id, {post_id: post_id, puid: puid, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit})
+            // var uv = $('#upvotecount_'+post_id).text();
+            // var upvote = parseInt(uv) - 2;
+            // $('#upvotecount_'+post_id).text(upvote);
+        }
+    } 
 
     
-//     // setTimeout(stopRealTime,10000);
+    // setTimeout(stopRealTime,10000);
     
-// });
+});
 
-$(".downvote").click(function() {
+$(".downvote").click(function(event) {
     // var ownCSVar = setInterval(getOCS, 500);
     // var postUserCSVar = setInterval(getPD, 500);
 
@@ -259,12 +284,17 @@ $(".downvote").click(function() {
     if ($(this).attr("class") == "downvote"){
       if((this.src == "http://localhost:9090/img/downvote.png") || (this.src == "/img/downvote.png") || (this.src == "https://big-four-fw.herokuapp.com/img/downvote.png") || (this.src == "https://mco2-big4fw.herokuapp.com/img/downvote.png")){
             this.src = "/img/downvoted.png";
+            document.getElementById('downvote_'+post_id).setAttribute('onclick', 'undownvote(event);');
+            document.getElementById('upvote_'+post_id).setAttribute('onclick', 'downupvote(event);');
+            // document.getElementById('downvoted_'+post_id).setAttribute('onclick', 'undownvote(event);');
+            event.target.dataset.postId;
             var downvote = 1;
             var upvote = 0;
             var downvoteCredit = 1;
  
             if($(this).prev().attr("src") == 'http://localhost:9090/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
+                document.getElementById('upvote_'+post_id).setAttribute('onclick', 'downupvote(event);');
                 // var uv = $('#upvotecount_'+post_id).text();
                 // var upvote = parseInt(uv) - 2;
                 upvote = 1;
@@ -273,6 +303,7 @@ $(".downvote").click(function() {
             }
             else if($(this).prev().attr("src") == '/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
+                document.getElementById('upvote_'+post_id).setAttribute('onclick', 'downupvote(event);');
                 // var uv = $('#upvotecount_'+post_id).text();
                 // var upvote = parseInt(uv) - 2;
                 upvote = 1;
@@ -280,6 +311,7 @@ $(".downvote").click(function() {
                 // $('#upvotecount_'+post_id).text(upvote);
             }else if($(this).prev().attr("src") == 'https://big-four-fw.herokuapp.com/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
+                document.getElementById('upvote_'+post_id).setAttribute('onclick', 'downupvote(event);');
                 // var uv = $('#upvotecount_'+post_id).text();
                 // var upvote = parseInt(uv) - 2;
                 upvote = 1;
@@ -287,6 +319,7 @@ $(".downvote").click(function() {
                 // $('#upvotecount_'+post_id).text(upvote);
             }else if($(this).prev().attr("src") == 'https://mco2-big4fw.herokuapp.com/img/upvoted.png'){
                 $(this).prev().attr("src","/img/upvote.png")
+                document.getElementById('upvote_'+post_id).setAttribute('onclick', 'downupvote(event);');
                 // var uv = $('#upvotecount_'+post_id).text();
                 // var upvote = parseInt(uv) - 2;
                 upvote = 1;
@@ -302,6 +335,9 @@ $(".downvote").click(function() {
         }
         else{
             this.src = "/img/downvote.png";
+            document.getElementById('downvote_'+post_id).setAttribute('onclick', 'downvote(event);');
+            document.getElementById('upvote_'+post_id).setAttribute('onclick', 'upvote(event);');
+            // document.getElementById('downvoted_'+post_id).setAttribute('onclick', 'downvote(event);');
             var upvote = 0;
             var downvote = 1;
             var downvoteCredit = 1;
