@@ -149,6 +149,9 @@ app.get('/userid/:userId', profileController.getIndivProfile);
 // app.get('/post/save/:postId', postHelperController.savePost);
 // app.get('/post/unsave/:postId', postHelperController.unsavePost);
 app.post('/post/upvote', postHelperController.upvotePost);
+app.post('/post/unupvote', postHelperController.unupvotePost);
+app.post('/post/downvote', postHelperController.downvotePost);
+app.post('/post/undownvote', postHelperController.undownvotePost);
 
 // app.get('/post/upvote/:postId', postHelperController.upvotePost);
 // app.get('/post/downvote/:postId', postHelperController.downvotePost);

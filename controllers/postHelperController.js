@@ -7,6 +7,15 @@ const Comment = require('../models/CommentModel.js');
 const Reply = require('../models/ReplyModel.js');
 const helper = require('../helpers/helper.js');
 
+const Pusher = require('pusher');
+
+let pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_APP_KEY,
+    secret: process.env.PUSHER_APP_SECRET,
+    cluster: 'ap1'
+});
+
 const postHelperController = {
     
     upvotePost: function(req, res) {
@@ -14,88 +23,88 @@ const postHelperController = {
         var post_id = helper.sanitize(req.body.post_id);
         var puid = helper.sanitize(req.body.puid);
         
-        let Pusher = require('pusher');
 
-        let pusher = new Pusher({
-            appId: process.env.PUSHER_APP_ID,
-            key: process.env.PUSHER_APP_KEY,
-            secret: process.env.PUSHER_APP_SECRET,
-            cluster: 'ap1'
-        });
+        let payload = { action: action, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, upvoteCredit: req.body.upvoteCredit};
 
-        let payload = { action: action, post_id: post_id};
-        pusher.trigger('post-events', 'postAction', payload);
+        if(puid == req.session.user){
+            db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.body.downvoteCount}}, function(post){
+                if(post){
+                    //console.log(post);
+                    db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
+                        if(user){
+                            //console.log(user);
+                            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.body.upvoteCount}}, function(post){
+                                if(post){
+                                    //console.log(post);
+                                    db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
+                                        if(user){
+                                            pusher.trigger('post-events', 'postAction', payload);
+                                            res.send('')
+                                        }
+                                    })
+                                }
+                            })      
+                        }
+                    })
+                }
+            }) 
+        } else{
+            db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.body.downvoteCount}}, function(post){
+                if(post){
+                    //console.log(post);
+                    db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
+                        if(user){
+                            //console.log(user);
+                            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.body.upvoteCount}}, function(post){
+                                if(post){
+                                    db.updateOne(User, {_id: puid}, {$inc: {creditScore: req.body.upvoteCredit}}, function(credit){
+                                        if(credit){
 
-        // if(puid == req.session.user){
-        //     db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
-        //         if(post){
-        //             //console.log(post);
-        //             db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
-        //                 if(user){
-        //                     //console.log(user);
-        //                     db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.query.upvoteCount}}, function(post){
-        //                         if(post){
-        //                             //console.log(post);
-        //                             db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
-        //                                 if(user){
-                                            
-        //                                 }
-        //                             })
-        //                         }
-        //                     })      
-        //                 }
-        //             })
-        //         }
-        //     }) 
-        // } else{
-        //     db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
-        //         if(post){
-        //             //console.log(post);
-        //             db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
-        //                 if(user){
-        //                     //console.log(user);
-        //                     db.updateOne(Post,{_id: post_id}, {$inc: {upvote: req.query.upvoteCount}}, function(post){
-        //                         if(post){
-        //                             db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: req.query.upvoteCredit}}, function(credit){
-        //                                 if(credit){
-
-        //                                     db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
-        //                                         if(user){
-        //                                             //console.log(user);
-        //                                         }
-        //                                     })
-        //                                 }
-        //                             })
-        //                         }
-        //                     })      
-        //                 }
-        //             })
-        //         }
-        //     }) 
-        // }
+                                            db.updateOne(User,{_id: req.session.user}, {$push: {postsUpVoted: post_id}}, function(user){
+                                                if(user){
+                                                    pusher.trigger('post-events', 'postAction', payload);
+                                                    res.send('')
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })      
+                        }
+                    })
+                }
+            }) 
+        }
     },
     
     unupvotePost: function(req, res) {
-        var post_id = helper.sanitize(req.query.post_id);
+        var action = helper.sanitize(req.body.action);
+        var post_id = helper.sanitize(req.body.post_id);
+        var puid = helper.sanitize(req.body.puid);
+        
 
-        if(req.query.puid == req.session.user){
-            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -req.query.upvoteCount}}, function(post){
+        let payload = { action: action, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, upvoteCredit: req.body.upvoteCredit};
+
+        if(puid == req.session.user){
+            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -req.body.upvoteCount}}, function(post){
                 if(post){
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsUpVoted: post_id}}, function(user){
                         if(user){
-                            //console.log(user);
+                            pusher.trigger('post-events', 'postAction', payload);
+        res.send('')
                         }
                     })
                 }
             })       
         } else{
-            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -req.query.upvoteCount}}, function(post){
+            db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -req.body.upvoteCount}}, function(post){
                 if(post){
-                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: -req.query.upvoteCredit}}, function(credit){
+                    db.updateOne(User, {_id: puid}, {$inc: {creditScore: -req.body.upvoteCredit}}, function(credit){
                         if(credit){
                             db.updateOne(User,{_id: req.session.user}, {$pull: {postsUpVoted: post_id}}, function(user){
                                 if(user){
-                                    //console.log(user);
+                                    pusher.trigger('post-events', 'postAction', payload);
+        res.send('')
                                 }
                             })
                         }
@@ -106,21 +115,26 @@ const postHelperController = {
     },
 
     downvotePost: function(req, res) {
-        var post_id = helper.sanitize(req.query.post_id);
+        var action = helper.sanitize(req.body.action);
+        var post_id = helper.sanitize(req.body.post_id);
+        var puid = helper.sanitize(req.body.puid);
+        
+        let payload = { action: action, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, downvoteCredit: req.body.downvoteCredit};
 
-        if(req.query.puid == req.session.user){
-            db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -req.query.upvoteCount}}, function(post){
+        if(puid == req.session.user){
+            db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -req.body.upvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsUpVoted: post_id}}, function(user){
                         if(user){
                             //console.log(user);
-                            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: req.query.downvoteCount}}, function(post){
+                            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: req.body.downvoteCount}}, function(post){
                                 if(post){
                                     //console.log(post);
                                     db.updateOne(User,{_id: req.session.user}, {$push: {postsDownVoted: post_id}}, function(user){
                                         if(user){
-                                            //console.log(user);
+                                            pusher.trigger('post-events', 'postAction', payload);
+                                            res.send('')
                                         }
                                     })
                                      
@@ -131,19 +145,20 @@ const postHelperController = {
                 }
             })      
         } else{
-            db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -req.query.upvoteCount}}, function(post){
+            db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -req.body.upvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsUpVoted: post_id}}, function(user){
                         if(user){
                             //console.log(user);
-                            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: req.query.downvoteCount}}, function(post){
+                            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: req.body.downvoteCount}}, function(post){
                                 if(post){
-                                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: -req.query.downvoteCredit}}, function(credit){
+                                    db.updateOne(User, {_id: puid}, {$inc: {creditScore: -req.body.downvoteCredit}}, function(credit){
                                         if(credit){
                                             db.updateOne(User,{_id: req.session.user}, {$push: {postsDownVoted: post_id}}, function(user){
                                                 if(user){
-                                                    //console.log(user);
+                                                    pusher.trigger('post-events', 'postAction', payload);
+                                                    res.send('')
                                                 }
                                             })
                                             
@@ -162,28 +177,34 @@ const postHelperController = {
     },
 
     undownvotePost: function(req, res) {
-        var post_id = helper.sanitize(req.query.post_id);
+        var action = helper.sanitize(req.body.action);
+        var post_id = helper.sanitize(req.body.post_id);
+        var puid = helper.sanitize(req.body.puid);
+        
+        let payload = { action: action, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, downvoteCredit: req.body.downvoteCredit};
 
-        if(req.query.puid == req.session.user){
-            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
+        if(puid == req.session.user){
+            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -req.body.downvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
                     db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
                         if(user){
-                            //console.log(user);
+                            pusher.trigger('post-events', 'postAction', payload);
+                            res.send('')
                         }
                     })
                 }
             })
         } else{
-            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -req.query.downvoteCount}}, function(post){
+            db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -req.body.downvoteCount}}, function(post){
                 if(post){
                     //console.log(post);
-                    db.updateOne(User, {_id: req.query.puid}, {$inc: {creditScore: req.query.downvoteCredit}}, function(credit){
+                    db.updateOne(User, {_id: puid}, {$inc: {creditScore: req.body.downvoteCredit}}, function(credit){
                         if(credit){
                             db.updateOne(User,{_id: req.session.user}, {$pull: {postsDownVoted: post_id}}, function(user){
                                 if(user){
-                                    //console.log(user);
+                                    pusher.trigger('post-events', 'postAction', payload);
+                                    res.send('')
                                 }
                             })
                         }
