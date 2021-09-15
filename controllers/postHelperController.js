@@ -24,7 +24,7 @@ const postHelperController = {
         var puid = helper.sanitize(req.body.puid);
         
 
-        let payload = { action: action, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, upvoteCredit: req.body.upvoteCredit};
+        let payload = { action: action, puid:puid, user: req.session.user, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, upvoteCredit: req.body.upvoteCredit};
 
         if(puid == req.session.user){
             db.updateOne(Post,{_id: post_id, downvote: { $gt: 0} }, {$inc: {downvote: -req.body.downvoteCount}}, function(post){
@@ -83,7 +83,7 @@ const postHelperController = {
         var puid = helper.sanitize(req.body.puid);
         
 
-        let payload = { action: action, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, upvoteCredit: req.body.upvoteCredit};
+        let payload = { action: action, puid:puid, user: req.session.user, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, upvoteCredit: req.body.upvoteCredit};
 
         if(puid == req.session.user){
             db.updateOne(Post,{_id: post_id}, {$inc: {upvote: -req.body.upvoteCount}}, function(post){
@@ -119,7 +119,7 @@ const postHelperController = {
         var post_id = helper.sanitize(req.body.post_id);
         var puid = helper.sanitize(req.body.puid);
         
-        let payload = { action: action, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, downvoteCredit: req.body.downvoteCredit};
+        let payload = { action: action, puid:puid, user: req.session.user, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, downvoteCredit: req.body.downvoteCredit};
 
         if(puid == req.session.user){
             db.updateOne(Post,{_id: post_id, upvote: {$gt: 0}}, {$inc: {upvote: -req.body.upvoteCount}}, function(post){
@@ -181,7 +181,7 @@ const postHelperController = {
         var post_id = helper.sanitize(req.body.post_id);
         var puid = helper.sanitize(req.body.puid);
         
-        let payload = { action: action, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, downvoteCredit: req.body.downvoteCredit};
+        let payload = { action: action, puid:puid, user: req.session.user, post_id: post_id, upvoteCount: req.body.upvoteCount, downvoteCount: req.body.downvoteCount, downvoteCredit: req.body.downvoteCredit};
 
         if(puid == req.session.user){
             db.updateOne(Post,{_id: post_id}, {$inc: {downvote: -req.body.downvoteCount}}, function(post){

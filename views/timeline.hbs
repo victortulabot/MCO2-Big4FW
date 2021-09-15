@@ -318,7 +318,19 @@
                 //console.log(data);
                 var action = data.action;
                 //updatePostStats[action](data.post_id);
+                //console.log(data.puid)
+                //console.log(data.user)
+                var cs = document.getElementsByClassName('cs_'+ data.puid)
+                var c;
+               
+                console.log(cs.length)
+                for(var i=0; i<cs.length; i++){
+                    c = cs[i].textContent
+                }
 
+                var f = c.split(" ")
+                var score = f[0].split("(")
+            
                 if(action == "upvoted"){
                     var u = document.querySelector('#upvotecount_' + data.post_id).textContent
                     document.querySelector('#upvotecount_' + data.post_id).textContent =  parseInt(u) + data.upvoteCount
@@ -326,20 +338,46 @@
                     var d = document.querySelector('#downvotecount_' + data.post_id).textContent
                     document.querySelector('#downvotecount_' + data.post_id).textContent = parseInt(d) - data.downvoteCount
 
+                    if(data.user != data.puid){ 
+                        for(var i=0; i<cs.length; i++){
+                            cs[i].textContent = "("+ (parseInt(score[1]) + data.upvoteCredit) + " pts)";
+                        }
+                    }
+
+                    
                 } else if (action == "downvoted"){
                     var u = document.querySelector('#upvotecount_' + data.post_id).textContent
                     document.querySelector('#upvotecount_' + data.post_id).textContent = parseInt(u) - data.upvoteCount
 
                     var d = document.querySelector('#downvotecount_' + data.post_id).textContent
                     document.querySelector('#downvotecount_' + data.post_id).textContent = parseInt(d) + data.downvoteCount
+
+                     if(data.user != data.puid){
+                         for(var i=0; i<cs.length; i++){
+                            cs[i].textContent = "("+ (parseInt(score[1]) - data.downvoteCredit) + " pts)";
+                        }
+                    }
+
                 } else if (action == "unupvote"){
                     var u = document.querySelector('#upvotecount_' + data.post_id).textContent
                     document.querySelector('#upvotecount_' + data.post_id).textContent = parseInt(u) - data.upvoteCount
+
+                     if(data.user != data.puid){
+                         for(var i=0; i<cs.length; i++){
+                            cs[i].textContent = "("+ (parseInt(score[1]) - data.upvoteCredit) + " pts)";
+                        }
+                    }
 
                     
                 } else{
                     var d = document.querySelector('#downvotecount_' + data.post_id).textContent
                     document.querySelector('#downvotecount_' + data.post_id).textContent = parseInt(d) - data.downvoteCount
+
+                     if(data.user != data.puid){
+                         for(var i=0; i<cs.length; i++){
+                            cs[i].textContent = "("+ (parseInt(score[1]) + data.downvoteCredit) + " pts)";
+                        }
+                    }
                 }
                 
             });

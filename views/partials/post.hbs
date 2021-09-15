@@ -57,7 +57,8 @@
                     {{!-- <a class="a-link" href="/userid/{{user._id}}">By: {{user.username}}</a> --}}
                     <p>By: {{user.username}}</p>
                 </div>
-                <div class="userCreditScoree" id="usercreditScore{{_id}}">({{user.creditScore}} pts)</div>    
+                {{!-- <div class="cs_{{user._id}}" style="display: none">{{user.creditScore}}</div>   --}}
+                <div class="userCreditScoree cs_{{user._id}}" id="usercreditScore{{_id}}">({{user.creditScore}} pts)</div>    
             </span>
             <div class="timeline-body" style="margin-top: 12px;">
                 <p>{{body}}</p>
