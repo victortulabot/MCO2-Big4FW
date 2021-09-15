@@ -23,7 +23,7 @@
                 </h4>
                
                 <div class ="dropdown">
-                    <img src="/img/option.png" style="height: 20px; width: 20px;" id="option1" title="Option">
+                    {{#match user._id activeid}}<img src="/img/option.png" style="height: 20px; width: 20px;" id="option1" title="Option">{{/match}}
                     <div class="dropdown-content">
                         {{#match user._id activeid}}
                             {{!-- {{#checkSaved this._id saved}}

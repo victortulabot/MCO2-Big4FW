@@ -82,7 +82,7 @@
                                                 {{/if}}
                                             </h4>
                                             <div class ="dropdown ">
-                                                <img src="/img/option.png" style="height: 20px; width: 23px; padding-right: 5px;" id="option1" title="Option">
+                                                {{#match post.user._id active_user}}<img src="/img/option.png" style="height: 20px; width: 23px; padding-right: 5px;" id="option1" title="Option">{{/match}}
                                                 <div class="dropdown-content">
                                                      {{#match post.user._id active_user}}
                                                         {{!-- <a href="#">Save Post</a>
