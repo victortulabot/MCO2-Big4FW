@@ -117,7 +117,8 @@
                                         </div>
                                         <span class="timeline-author">
                                             <div class="author">  
-                                                <a class="a-link" href="/userid/{{post.user._id}}">By: {{post.user.username}}</a>
+                                                {{!-- <a class="a-link" href="/userid/{{post.user._id}}">By: {{post.user.username}}</a> --}}
+                                                <p>By: {{post.user.username}}</p>
                                             </div>
                                             <div class="userCreditScoree  cs_{{post.user._id}}" id="usercreditScore">({{post.user.creditScore}} pts)</div>
                                         </span>
