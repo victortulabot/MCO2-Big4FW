@@ -125,6 +125,268 @@
         </div>
     </div>
     
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            var socketId;
+
+            var updatePostStats = {
+                upvoted: function (postId) {
+                    document.querySelector('#upvotecount_' + postId).textContent++;
+                },
+                downvoted: function(postId) {
+                    document.querySelector('#downvotecount_' + postId).textContent++;
+                },
+
+                //remove upvote and downvote
+                unupvote: function (postId) {
+                    document.querySelector('#upvotecount_' + postId).textContent--;
+                },
+                undownvote: function(postId) {
+                    document.querySelector('#downvotecount_' + postId).textContent--;
+                }
+            };
+
+            // unupvote to upvoted
+            var upvoted = function (event) {
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var action = "upvoted"
+
+                var u = document.getElementById('upvote_' + post_id).src
+                var d = document.getElementById('upvote_' + post_id).nextElementSibling.src;
+
+                if((u == "http://localhost:9090/img/upvote.png") || (u == "/img/upvote.png") || (u == "https://big-four-fw.herokuapp.com/img/upvote.png") || (u == "https://mco2-big4fw.herokuapp.com/img/upvote.png")){
+                    document.getElementById('upvote_' + post_id).src = "/img/upvoted.png";
+                
+
+                    var upvote = 1;
+                    var downvote = 0;
+                    var upvoteCredit = 1;
+            
+                    if(d == 'http://localhost:9090/img/downvoted.png'){
+                        document.getElementById('upvote_' + post_id).nextElementSibling.src = "/img/downvote.png"
+                        // var dv = $('#downvotecount_'+post_id).text();
+                        // var downvote = parseInt(dv) - 1;
+                        downvote = 1;
+                        upvoteCredit += 1;
+                        // $('#downvotecount_'+post_id).text(downvote);
+                    }
+                    else if(d == '/img/downvoted.png'){
+                        document.getElementById('upvote_' + post_id).nextElementSibling.src = "/img/downvote.png"
+                        // var dv = $('#downvotecount_'+post_id).text();
+                        // var downvote = parseInt(dv) - 1;
+                        downvote = 1;
+                        upvoteCredit += 1;
+                        // $('#downvotecount_'+post_id).text(downvote);
+                    }else if(d == 'https://big-four-fw.herokuapp.com/img/downvoted.png'){
+                        document.getElementById('upvote_' + post_id).nextElementSibling.src = "/img/downvote.png"
+                        // var dv = $('#downvotecount_'+post_id).text();
+                        // var downvote = parseInt(dv) - 1;
+                        downvote = 1;
+                        upvoteCredit += 1;
+                        // $('#downvotecount_'+post_id).text(downvote);
+                    }else if(d == 'https://mco2-big4fw.herokuapp.com/img/downvoted.png'){
+                        document.getElementById('upvote_' + post_id).nextElementSibling.src = "/img/downvote.png"
+                        // var dv = $('#downvotecount_'+post_id).text();
+                        // var downvote = parseInt(dv) - 1;
+                        downvote = 1;
+                        upvoteCredit += 1;
+                        // $('#downvotecount_'+post_id).text(downvote);
+                    }
+
+                    axios.post('/post/upvote', { action: action, puid: puid, post_id: post_id, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit});
+                } else{
+                    // upvoted to unupvote
+                    var action = "unupvote"
+
+                    document.getElementById('upvote_' + post_id).src = "/img/upvote.png";
+
+                    var upvote = 1;
+                    var downvote = 0;
+                    var upvoteCredit = 1;
+
+                    axios.post('/post/unupvote', { action: action, puid: puid, post_id: post_id, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit});
+                }
+                
+                
+            };
+
+            // upvoted to unupvote
+            var unupvote = function (event) {
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var action = "unupvote"
+
+                document.getElementById('upvoted_' + post_id).src = "/img/upvote.png";
+
+                var upvote = 1;
+                var downvote = 0;
+                var upvoteCredit = 1;
+
+                axios.post('/post/unupvote', { action: action, puid: puid, post_id: post_id, upvoteCount: upvote, downvoteCount: downvote, upvoteCredit: upvoteCredit});
+            };
+
+            // undownvote to downvoted
+            var downvoted = function (event) {
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var action = "downvoted"
+
+                var d = document.getElementById('downvote_' + post_id).src
+                var u = document.getElementById('downvote_' + post_id).previousElementSibling.src;
+
+                if((d == "http://localhost:9090/img/downvote.png") || (d == "/img/downvote.png") || (d == "https://big-four-fw.herokuapp.com/img/downvote.png") || (d == "https://mco2-big4fw.herokuapp.com/img/downvote.png")){
+                    document.getElementById('downvote_' + post_id).src = "/img/downvoted.png";
+                    var downvote = 1;
+                    var upvote = 0;
+                    var downvoteCredit = 1;
+
+                    if(u == 'http://localhost:9090/img/upvoted.png'){
+                        document.getElementById('downvote_' + post_id).previousElementSibling.src = "/img/upvote.png"
+                        // var uv = $('#upvotecount_'+post_id).text();
+                        // var upvote = parseInt(uv) - 2;
+                        upvote = 1;
+                        downvoteCredit += 1;
+                        // $('#upvotecount_'+post_id).text(upvote);
+                    }
+                    else if(u == '/img/upvoted.png'){
+                        document.getElementById('downvote_' + post_id).previousElementSibling.src = "/img/upvote.png"
+                        // var uv = $('#upvotecount_'+post_id).text();
+                        // var upvote = parseInt(uv) - 2;
+                        upvote = 1;
+                        downvoteCredit += 1;
+                        // $('#upvotecount_'+post_id).text(upvote);
+                    }else if(u == 'https://big-four-fw.herokuapp.com/img/upvoted.png'){
+                        document.getElementById('downvote_' + post_id).previousElementSibling.src = "/img/upvote.png"
+                        // var uv = $('#upvotecount_'+post_id).text();
+                        // var upvote = parseInt(uv) - 2;
+                        upvote = 1;
+                        downvoteCredit += 1;
+                        // $('#upvotecount_'+post_id).text(upvote);
+                    }else if(u == 'https://mco2-big4fw.herokuapp.com/img/upvoted.png'){
+                        document.getElementById('downvote_' + post_id).previousElementSibling.src = "/img/upvote.png"
+                        // var uv = $('#upvotecount_'+post_id).text();
+                        // var upvote = parseInt(uv) - 2;
+                        upvote = 1;
+                        downvoteCredit += 1;
+                        // $('#upvotecount_'+post_id).text(upvote);
+                    }
+
+                    axios.post('/post/downvote', { action: action, puid: puid, post_id: post_id, upvoteCount: upvote, downvoteCount: downvote, downvoteCredit: downvoteCredit});
+                
+                }
+                else{
+                    action = "undownvote"
+                    document.getElementById('downvote_' + post_id).src = "/img/downvote.png";
+                    var upvote = 0;
+                    var downvote = 1;
+                    var downvoteCredit = 1;
+                    axios.post('/post/undownvote', { action: action, puid: puid, post_id: post_id, upvoteCount: upvote, downvoteCount: downvote, downvoteCredit: downvoteCredit});
+                }
+
+                
+                
+            };
+            
+            // downvoted to undownvote
+            var undownvote = function (event) {
+                var post_id = event.target.dataset.postId;
+                var puid = event.target.dataset.puid;
+                var action = "undownvote"
+                
+                document.getElementById('downvoted_' + post_id).src = "/img/downvote.png";
+                var upvote = 0;
+                var downvote = 1;
+                var downvoteCredit = 1;
+                axios.post('/post/undownvote', { action: action, puid: puid, post_id: post_id, upvoteCount: upvote, downvoteCount: downvote, downvoteCredit: downvoteCredit});
+                
+            };
+            
+
+            // pusher initialization 
+            var pusher = new Pusher("57a598781b49aeefdb0f", {
+                cluster: 'ap1'
+            });
+
+            console.log(pusher.connection.state);
+
+            // retrieve the socket ID on successful connection
+            pusher.connection.bind('connected', function() {
+                socketId = pusher.connection.socket_id;
+                console.log("connected");
+            });
+            
+            var channel = pusher.subscribe('post-events');
+            channel.bind('postAction', function(data) {
+                // log message data to console - for debugging purposes
+                //console.log(data);
+                var action = data.action;
+                //updatePostStats[action](data.post_id);
+                //console.log(data.puid)
+                //console.log(data.user)
+                var cs = document.getElementsByClassName('cs_'+ data.puid)
+                var c;
+               
+                console.log(cs.length)
+                for(var i=0; i<cs.length; i++){
+                    c = cs[i].textContent
+                }
+
+                var f = c.split(" ")
+                var score = f[0].split("(")
+            
+                if(action == "upvoted"){
+                    var u = document.querySelector('#upvotecount_' + data.post_id).textContent
+                    document.querySelector('#upvotecount_' + data.post_id).textContent =  parseInt(u) + data.upvoteCount
+
+                    var d = document.querySelector('#downvotecount_' + data.post_id).textContent
+                    document.querySelector('#downvotecount_' + data.post_id).textContent = parseInt(d) - data.downvoteCount
+
+                    if(data.user != data.puid){ 
+                        for(var i=0; i<cs.length; i++){
+                            cs[i].textContent = "("+ (parseInt(score[1]) + data.upvoteCredit) + " pts)";
+                        }
+                    }
+
+                    
+                } else if (action == "downvoted"){
+                    var u = document.querySelector('#upvotecount_' + data.post_id).textContent
+                    document.querySelector('#upvotecount_' + data.post_id).textContent = parseInt(u) - data.upvoteCount
+
+                    var d = document.querySelector('#downvotecount_' + data.post_id).textContent
+                    document.querySelector('#downvotecount_' + data.post_id).textContent = parseInt(d) + data.downvoteCount
+
+                     if(data.user != data.puid){
+                         for(var i=0; i<cs.length; i++){
+                            cs[i].textContent = "("+ (parseInt(score[1]) - data.downvoteCredit) + " pts)";
+                        }
+                    }
+
+                } else if (action == "unupvote"){
+                    var u = document.querySelector('#upvotecount_' + data.post_id).textContent
+                    document.querySelector('#upvotecount_' + data.post_id).textContent = parseInt(u) - data.upvoteCount
+
+                     if(data.user != data.puid){
+                         for(var i=0; i<cs.length; i++){
+                            cs[i].textContent = "("+ (parseInt(score[1]) - data.upvoteCredit) + " pts)";
+                        }
+                    }
+
+                    
+                } else{
+                    var d = document.querySelector('#downvotecount_' + data.post_id).textContent
+                    document.querySelector('#downvotecount_' + data.post_id).textContent = parseInt(d) - data.downvoteCount
+
+                     if(data.user != data.puid){
+                         for(var i=0; i<cs.length; i++){
+                            cs[i].textContent = "("+ (parseInt(score[1]) + data.downvoteCredit) + " pts)";
+                        }
+                    }
+                }
+                
+            });
+        </script>
     </body>
 </html>
 
@@ -230,4 +492,5 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous">
+
 </script>
